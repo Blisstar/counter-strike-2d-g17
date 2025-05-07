@@ -27,10 +27,6 @@ common/
 Bien se puede mejorar (cambiando el cmakefile) agregando mas
 sub-carpetas.
 
-Asi tambien **deben** ser cambiados los *targets* del cmake (`taller_client`,
-`taller_server`, ...) por nombres mas acordes al TP que se este
-haciendo.
-
 Tambien, por default solo se compila una version *debug* sin
 optimizar. Si se quiere compilar binarios optimizados
 (lo que cmake llama *release*) se puede, solo hay modificar
