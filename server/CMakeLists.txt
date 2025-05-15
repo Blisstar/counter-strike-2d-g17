@@ -1,7 +1,8 @@
 target_sources(cs2d_server
     PRIVATE
     # .cpp files
-    main.cpp
+    *.cpp
     PUBLIC
     # .h files
+    *.h
     )
