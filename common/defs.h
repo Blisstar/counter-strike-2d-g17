@@ -1,4 +1,15 @@
-#define CLIENT_SEND_ATTACK 0x03
-#define CLIENT_RECV_EVENT 0x06
-#define SERV_SEND_EVENT 0x06
-#define SERV_RECV_ATTACK 0x03
+#ifndef DEFS
+#define DEFS
+
+#define CONNECT_GAME 0x00
+#define DISCONNECT_GAME 0x01
+#define CREATE_GAME 0x02
+#define START_GAME 0x03
+#define GET_LIST_GAME 0x04
+
+struct Snapshot
+{
+    /* data */
+};
+
+#endif

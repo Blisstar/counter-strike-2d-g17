@@ -1,6 +1,8 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+#include <assert.h>
+
 #include <atomic>
 #include <iostream>
 #include <memory>
@@ -8,18 +10,15 @@
 #include <thread>
 #include <utility>
 
-#include <assert.h>
-
-#include "socket.h"
 #include "acceptor.h"
+#include "socket.h"
 
 class Server {
-private:
+   private:
     Socket acceptorSkt;
     Broadcast broadcast;
-    Gameloop game;
 
-public:
+   public:
     explicit Server(const std::string& servName);
 
     Server(const Server&) = delete;

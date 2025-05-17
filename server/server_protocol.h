@@ -12,7 +12,6 @@
 #include <assert.h>
 
 #include "defs.h"
-#include "event.h"
 #include "protocol.h"
 #include "prtrecvinvalidvalue.h"
 #include "socket.h"

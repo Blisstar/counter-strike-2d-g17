@@ -3,36 +3,41 @@
 
 class OnlineClient;
 
+#include <assert.h>
+
 #include <list>
 #include <mutex>
 #include <string>
+#include <unordered_map>
 #include <utility>
 
-#include <assert.h>
-
-#include "event.h"
-#include "socket.h"
+#include "game.h"
 #include "onlineclient.h"
 #include "queue.h"
+#include "socket.h"
 
 class Broadcast {
-private:
+   private:
     std::mutex mtx;
-    std::list<OnlineClient> onlineClients;
-    Queue<Event> eventsToProcess;
+    std::unordered_map<unsigned int, OnlineClient> onlineClients;
+    std::unordered_map<unsigned int, Game> games;
+    unsigned int nextClientId;
+    unsigned int nextGameId;
     bool wasClosed;
 
-public:
+   public:
     Broadcast();
 
     Broadcast(const Broadcast&) = delete;
     Broadcast& operator=(const Broadcast&) = delete;
 
-    void addClient(Socket sktNewClient, Gameloop& game);
+    void addClient(Socket sktNewClient);
+
+    unsigned int createGame(std::string gameName, unsigned int hostClientId);
 
     void disconnectInactiveClients();
 
-    void pushEventToAll(const Event event);
+    void pushSnapshotToAll(const Snapshot snapshot);
 
     bool isClosed() const;
 

@@ -1,8 +1,6 @@
 #include "server_protocol.h"
 
-ServerProtocol::ServerProtocol(Socket _skt) : skt(std::move(_skt)) {
-    wasClosed = false;
-}
+ServerProtocol::ServerProtocol(Socket _skt) : Protocol(), skt(std::move(_skt)) {}
 
 void ServerProtocol::sendEvent(const Event& event) {
     char v = SERV_SEND_EVENT;

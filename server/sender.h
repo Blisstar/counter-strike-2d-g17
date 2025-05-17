@@ -14,10 +14,10 @@
 class Sender: public Thread {
 private:
     ServerProtocol& prt;
-    Queue<Event>& eventsToSend;
+    Queue<Snapshot>& snapshotsToSend;
 
 public:
-    Sender(ServerProtocol& _prt, Queue<Event>& q);
+    Sender(ServerProtocol& _prt, Queue<Snapshot>& q);
 
     Sender(const Sender&) = delete;
     Sender& operator=(const Sender&) = delete;

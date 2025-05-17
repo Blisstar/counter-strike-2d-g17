@@ -5,4 +5,10 @@ target_sources(cs2d_common
     PUBLIC
     # .h files
     *.h
-    )
+)
+
+include(
+    PUBLIC
+    defs.h
+    thread.h
+)

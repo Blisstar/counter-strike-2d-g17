@@ -1,8 +1,9 @@
 #include "receiver.h"
 
-#include "gameloop.h"
+#include "game.h"
 
-Receiver::Receiver(ServerProtocol& _prt, Gameloop& _game): prt(_prt), game(_game) {}
+Receiver::Receiver(unsigned int _clientId, ServerProtocol& _prt, Broadcast& _broadcast, unsigned int _idGame)
+    : clientId(clientId), prt(_prt), broadcast(_broadcast) {}
 
 void Receiver::run() {
     while (!prt.isClosed()) {

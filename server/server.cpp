@@ -3,7 +3,7 @@
 Server::Server(const std::string& servName): acceptorSkt(servName.c_str()), game(broadcast) {}
 
 void Server::run() {
-    Acceptor acceptor(std::move(acceptorSkt), broadcast, game);
+    Acceptor acceptor(std::move(acceptorSkt), broadcast);
 
     acceptor.start();
 

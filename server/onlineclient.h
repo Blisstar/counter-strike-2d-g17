@@ -1,34 +1,34 @@
 #ifndef ONLINE_CLIENT_H
 #define ONLINE_CLIENT_H
 
+#include <assert.h>
+
 #include <iostream>
 #include <string>
 #include <utility>
 
-#include <assert.h>
-
-#include "event.h"
+#include "broadcast.h"
 #include "queue.h"
 #include "receiver.h"
 #include "sender.h"
 
 class OnlineClient {
-private:
+   private:
     ServerProtocol prt;
-    Queue<Event> eventsToSend;
+    Queue<Snapshot> snapshotsToSend;
     Receiver receiverThread;
     Sender senderThread;
 
-private:
+   private:
     void disconnect();
 
-public:
-    OnlineClient(Gameloop& _game, Socket skt);
+   public:
+    OnlineClient(unsigned int clientId, unsigned int gameId, Broadcast& broadcast, Socket skt);
 
     OnlineClient(const OnlineClient&) = delete;
     OnlineClient& operator=(const OnlineClient&) = delete;
 
-    void pushEvent(Event event);
+    void pushSnapshot(Snapshot snapshot);
 
     void connect();
 

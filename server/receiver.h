@@ -1,25 +1,27 @@
 #ifndef RECEIVER_H
 #define RECEIVER_H
 
-class Gameloop;
+class Game;
+
+#include <assert.h>
 
 #include <iostream>
 #include <string>
 
-#include <assert.h>
-
 #include "server_protocol.h"
 #include "thread.h"
 
-class Gameloop;
+class Game;
 
-class Receiver: public Thread {
-private:
+class Receiver : public Thread {
+   private:
+    unsigned int clientId,
     ServerProtocol& prt;
-    Gameloop& game;
+    Broadcast& broadcast;
+    unsigned int gameId;
 
-public:
-    Receiver(ServerProtocol& _prt, Gameloop& _game);
+   public:
+    Receiver(unsigned int _clientId, ServerProtocol& _prt, Broadcast& _broadcast, unsigned int _gameId);
 
     Receiver(const Receiver&) = delete;
     Receiver& operator=(const Receiver&) = delete;

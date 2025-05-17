@@ -1,27 +1,26 @@
 #ifndef ACCEPTOR_H
 #define ACCEPTOR_H
 
+#include <arpa/inet.h>
+#include <assert.h>
+
 #include <cstdint>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <utility>
 
-#include <arpa/inet.h>
-#include <assert.h>
-
+#include "game.h"
 #include "socket.h"
-#include "gameloop.h"
 #include "thread.h"
 
-class Acceptor: public Thread {
-private:
+class Acceptor : public Thread {
+   private:
     Socket skt;
     Broadcast& broadcast;
-    Gameloop& game;
 
-public:
-    Acceptor(Socket _skt, Broadcast& _broadcast, Gameloop& _game);
+   public:
+    Acceptor(Socket _skt, Broadcast& _broadcast);
 
     Acceptor(const Acceptor&) = delete;
     Acceptor& operator=(const Acceptor&) = delete;

@@ -1,16 +1,15 @@
 #include "acceptor.h"
 
-Acceptor::Acceptor(Socket _skt, Broadcast& _broadcast, Gameloop& _game):
-        skt(std::move(_skt)), broadcast(_broadcast), game(_game) {}
+Acceptor::Acceptor(Socket _skt, Broadcast& _broadcast)
+    : skt(std::move(_skt)), broadcast(_broadcast) {}
 
 void Acceptor::run() {
-    game.start();
-    while (_keep_running) {
+    while (should_keep_running()) {
         try {
             Socket newClient = skt.accept();
 
             reap_dead();
-            broadcast.addClient(std::move(newClient), game);
+            broadcast.addClient(std::move(newClient));
         } catch (const std::exception& e) {
             kill_all();
             stop();
@@ -18,14 +17,16 @@ void Acceptor::run() {
     }
 }
 
-void Acceptor::reap_dead() { broadcast.disconnectInactiveClients(); }
+void Acceptor::reap_dead() {
+    broadcast.disconnectInactiveClients();
+}
 
-void Acceptor::kill_all() { broadcast.close(); }
+void Acceptor::kill_all() {
+    broadcast.close();
+}
 
 void Acceptor::finish() {
     if (this->is_alive()) {
-        game.stop();
-        game.join();
         skt.shutdown(SHUT_RDWR);
         skt.close();
         this->join();
