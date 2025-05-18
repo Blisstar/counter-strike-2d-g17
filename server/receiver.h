@@ -15,7 +15,7 @@ class Game;
 
 class Receiver : public Thread {
    private:
-    unsigned int clientId,
+    const unsigned int clientId;
     ServerProtocol& prt;
     Broadcast& broadcast;
     unsigned int gameId;

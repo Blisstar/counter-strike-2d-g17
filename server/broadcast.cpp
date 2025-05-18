@@ -19,6 +19,21 @@ unsigned int Broadcast::createGame(std::string gameName,
     return gameId;
 }
 
+void Broadcast::connectGame(unsigned int gameId, unsigned int clientId) {
+    games[gameId].addPlayer(clientId);
+}
+
+void Broadcast::disconnectGame(unsigned int gameId, unsigned int clientId) {
+    games[gameId].removePlayer(clientId);
+    if (!games[gameId].areTherePlayers()) {
+        games.erase(gameId);
+    }
+}
+
+void Game::startGame(unsigned int gameId, unsigned int hostClientId) {
+    
+}
+
 void Broadcast::disconnectInactiveClients() {
     const std::lock_guard<std::mutex> lck(mtx);
     for (auto it = onlineClients.begin(); it != onlineClients.end();) {

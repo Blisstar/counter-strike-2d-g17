@@ -3,7 +3,7 @@
 OnlineClient::OnlineClient(unsigned int clientId, unsigned int gameId, Broadcast& broadcast,
                            Socket skt)
     : prt(std::move(skt)),
-      receiverThread(prt, broadcast, clientId, gameId),
+      receiverThread(clientId, prt, broadcast, gameId),
       senderThread(prt, snapshotsToSend) {}
 
 void OnlineClient::connect() {

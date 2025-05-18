@@ -35,6 +35,12 @@ class Broadcast {
 
     unsigned int createGame(std::string gameName, unsigned int hostClientId);
 
+    void connectGame(unsigned int gameId, unsigned int clientId);
+    
+    void disconnectGame(unsigned int gameId, unsigned int clientId);
+
+    void startGame(unsigned int gameId, unsigned int hostClientId);
+
     void disconnectInactiveClients();
 
     void pushSnapshotToAll(const Snapshot snapshot);
