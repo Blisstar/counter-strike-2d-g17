@@ -19,7 +19,19 @@ void Receiver::run() {
             }
             case ClientMessageType::CreateGame : {
                 CreateGame c = std::get<CreateGame>(msg.data);
-                broadcast.createGame(c.gameName, clientId, c.mapId);
+                gameId = broadcast.createGame(c.gameName, clientId, c.mapId);
+                break;
+            }
+            case ClientMessageType::DisconnectGame : {
+                broadcast.disconnectGame(gameId, clientId);
+                gameId = 0;
+                break;
+            }
+            case ClientMessageType::GetListGame : {
+                break;
+            }
+            case ClientMessageType::StartGame : {
+                broadcast.startGame(gameId, clientId);
                 break;
             }
             default:

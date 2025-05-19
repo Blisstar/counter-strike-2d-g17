@@ -14,12 +14,17 @@ void ServerProtocol::sendMessage(ServerMessage msg) {
 }
 
 ClientMessage ServerProtocol::recvMessage() {
-    char v = 0;
-    recvall(skt, &v, 1);
-    if (v == SERV_RECV_ATTACK) {
-        return ENEMYDEAD;
-    } else {
-        throw PrtRecvInvalidValue();
+    ClientMessageType t = ClientMessageType::InvalidClientMessage;
+    ClientMessageData d;
+    recvall(skt, &t, 1);
+    switch (t)
+    {
+    case ClientMessageType::ConnectGame :
+        /* code */
+        break;
+    
+    default:
+        break;
     }
 }
 
