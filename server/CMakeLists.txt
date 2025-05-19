@@ -1,8 +1,16 @@
+# Buscar todos los .cpp y .hpp desde este nivel
+file(GLOB_RECURSE CPP_FILES CONFIGURE_DEPENDS *.cpp)
+file(GLOB_RECURSE HPP_FILES CONFIGURE_DEPENDS *.hpp)
+
+# Crear el ejecutable
+add_executable(cs2d_server)
+
+# Agregar los archivos fuente
 target_sources(cs2d_server
-    PRIVATE
-    # .cpp files
-    *.cpp
-    PUBLIC
-    # .h files
-    *.h
-    )
+    PRIVATE ${CPP_FILES}
+    PUBLIC  ${HPP_FILES}
+)
+
+# Incluir desde esta misma carpeta (src/)
+target_include_directories(cs2d_server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+

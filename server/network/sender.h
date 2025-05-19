@@ -1,23 +1,22 @@
 #ifndef SENDER_H
 #define SENDER_H
 
+#include <assert.h>
+
 #include <iostream>
 #include <string>
 
-#include <assert.h>
-
-#include "event.h"
-#include "server_protocol.h"
 #include "queue.h"
+#include "server_protocol.h"
 #include "thread.h"
 
-class Sender: public Thread {
-private:
+class Sender : public Thread {
+   private:
     ServerProtocol& prt;
-    Queue<Snapshot>& snapshotsToSend;
+    Queue<Message>& messagesToSend;
 
-public:
-    Sender(ServerProtocol& _prt, Queue<Snapshot>& q);
+   public:
+    Sender(ServerProtocol& _prt, Queue<Message>& q);
 
     Sender(const Sender&) = delete;
     Sender& operator=(const Sender&) = delete;
