@@ -1,6 +1,9 @@
 #ifndef SERVER_PROTOCOL_H
 #define SERVER_PROTOCOL_H
 
+#include <arpa/inet.h>
+#include <assert.h>
+
 #include <cstdint>
 #include <iostream>
 #include <list>
@@ -8,26 +11,23 @@
 #include <utility>
 #include <vector>
 
-#include <arpa/inet.h>
-#include <assert.h>
-
 #include "defs.h"
 #include "protocol.h"
 #include "prtrecvinvalidvalue.h"
 
-class ServerProtocol: public Protocol {
-private:
+class ServerProtocol : public Protocol {
+   private:
     Socket skt;
 
-public:
+   public:
     explicit ServerProtocol(Socket _skt);
 
     ServerProtocol(const ServerProtocol&) = delete;
     ServerProtocol& operator=(const ServerProtocol&) = delete;
 
-    void sendEvent(const Event& event);
+    void sendMessage(ServerMessage msg);
 
-    EventType recvEvent();
+    ClientMessage recvMessage();
 
     void close();
 };

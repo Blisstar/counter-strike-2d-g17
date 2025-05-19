@@ -13,10 +13,10 @@
 class Sender : public Thread {
    private:
     ServerProtocol& prt;
-    Queue<Message>& messagesToSend;
+    Queue<ServerMessage>& messagesToSend;
 
    public:
-    Sender(ServerProtocol& _prt, Queue<Message>& q);
+    Sender(ServerProtocol& _prt, Queue<ServerMessage>& q);
 
     Sender(const Sender&) = delete;
     Sender& operator=(const Sender&) = delete;

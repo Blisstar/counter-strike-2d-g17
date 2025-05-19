@@ -3,16 +3,49 @@
 
 #include <variant>
 
-// Actions that the player send
-#define CONNECT_GAME 0x00
-#define DISCONNECT_GAME 0x01
-#define CREATE_GAME 0x02
-#define START_GAME 0x03
-#define GET_LIST_GAME 0x04
+// Messages that the player send
+
+enum class ClientMessageType {
+    CreateGame,
+    ConnectGame,
+    DisconnectGame,
+    StartGame,
+    GetListGame
+};
+
+struct CreateGame {
+    std::string gameName;
+    unsigned int mapId;
+
+    CreateGame(std::string _gameName, unsigned int _mapId): gameName(_gameName), mapId(_mapId) {}
+    
+};
+
+struct ConnectGame {
+    unsigned int gameId;
+
+    ConnectGame(unsigned int _gameId): gameId(_gameId) {}
+
+};
+
+using ClientMessageData = std::variant<std::monostate, CreateGame, ConnectGame>;
+
+struct ClientMessage {
+    ClientMessageType type;
+    ClientMessageData data;
+
+    ClientMessage(ClientMessageType _type, ClientMessageData _data)
+        : type(_type), data(_data) {}
+};
 
 // Messages that the server send
 
-enum class MessageType { Error, LobbySnapshot, RoomSnapshot, GameSnapshot };
+enum class ServerMessageType {
+    Error,
+    LobbySnapshot,
+    RoomSnapshot,
+    GameSnapshot
+};
 
 enum class ErrorType { GameInProgress, GameIsFull };
 
@@ -63,23 +96,20 @@ struct GameSnapshot {
         : connectedPlayers(_connectedPlayers), state(_state) {}
 };
 
-using MessageData =
+using ServerMessageData =
     std::variant<ErrorMessage, std::unique_ptr<LobbySnapshot>,
                  std::unique_ptr<RoomSnapshot>, std::unique_ptr<GameSnapshot>>;
 
-struct Message {
-    MessageType type;
-    MessageData data;
+struct ServerMessage {
+    ServerMessageType type;
+    ServerMessageData data;
 
-    Message(MessageType _type, MessageData _data)
+    ServerMessage(ServerMessageType _type, ServerMessageData _data)
         : type(_type), data(std::move(_data)) {}
 };
 
-enum class ErrorType {
-    GameInProgress,
-    GameIsFull
-};
-    
+enum class ErrorType { GameInProgress, GameIsFull };
+
 struct ErrorMessage {
     ErrorType type;
 
@@ -92,17 +122,21 @@ struct RoomData {
     unsigned int mapId;
     uint8_t playersCount;
 
-    RoomData(unsigned int _gameId, std::string _gameName, unsigned int _mapId, uint8_t _playersCount)
-        : gameId(_gameId), gameName(_gameName), mapId(_mapId), playersCount(_playersCount) {}
+    RoomData(unsigned int _gameId, std::string _gameName, unsigned int _mapId,
+             uint8_t _playersCount)
+        : gameId(_gameId),
+          gameName(_gameName),
+          mapId(_mapId),
+          playersCount(_playersCount) {}
 };
 
 struct LobbySnapshot {
     std::vector<RoomData> roomListData;
 
-    void addRoomData(unsigned int gameId, std::string gameName, unsigned int mapId, uint8_t playersCount) {
+    void addRoomData(unsigned int gameId, std::string gameName,
+                     unsigned int mapId, uint8_t playersCount) {
         roomListData.push_back(RoomData(gameId, gameName, mapId, playersCount));
     }
-
 };
 
 struct RoomSnapshot {
@@ -110,7 +144,8 @@ struct RoomSnapshot {
     unsigned int mapId;
     bool isHost;
 
-    RoomSnapshot(std::vector<unsigned int> _connectedPlayers, unsigned int _mapId, bool _isHost)
+    RoomSnapshot(std::vector<unsigned int> _connectedPlayers,
+                 unsigned int _mapId, bool _isHost)
         : connectedPlayers(_connectedPlayers), mapId(_mapId), isHost(_isHost) {}
 };
 
@@ -122,60 +157,16 @@ struct GameSnapshot {
         : connectedPlayers(_connectedPlayers), state(_state) {}
 };
 
-using MessageData = std::variant<ErrorMessage, std::unique_ptr<LobbySnapshot>, std::unique_ptr<RoomSnapshot>, std::unique_ptr<GameSnapshot>>;
+using ServerMessageData =
+    std::variant<ErrorMessage, std::unique_ptr<LobbySnapshot>,
+                 std::unique_ptr<RoomSnapshot>, std::unique_ptr<GameSnapshot>>;
 
-struct Message {
-    MessageType type;
-    MessageData data;
+struct ServerMessage {
+    ServerMessageType type;
+    ServerMessageData data;
 
-    Message(MessageType _type, MessageData _data)
+    ServerMessage(ServerMessageType _type, ServerMessageData _data)
         : type(_type), data(std::move(_data)) {}
 };
-
-// ==============================
-// Type mapping T -> MessageType
-// ==============================
-
-template<typename T>
-struct MessageTypeTemplate;
-
-template<>
-struct MessageTypeTemplate<ErrorMessage> {
-    static constexpr MessageType value = MessageType::Error;
-};
-
-template<>
-struct MessageTypeTemplate<LobbySnapshot> {
-    static constexpr MessageType value = MessageType::LobbySnapshot;
-};
-
-template<>
-struct MessageTypeTemplate<RoomSnapshot> {
-    static constexpr MessageType value = MessageType::RoomSnapshot;
-};
-
-template<>
-struct MessageTypeTemplate<GameSnapshot> {
-    static constexpr MessageType value = MessageType::GameSnapshot;
-};
-
-// ==============================
-// Helper automático makeMessage
-// ==============================
-
-template<typename T, typename... Args>
-Message makeMessage(Args&&... args) {
-    if constexpr (std::is_same_v<T, ErrorMessage>) {
-        return Message{
-            MessageTypeTemplate<T>::value,
-            T{std::forward<Args>(args)...}
-        };
-    } else {
-        return Message{
-            MessageTypeTemplate<T>::value,
-            std::make_unique<T>(std::forward<Args>(args)...)
-        };
-    }
-}
 
 #endif

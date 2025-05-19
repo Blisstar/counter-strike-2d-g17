@@ -11,7 +11,7 @@ void OnlineClient::connect() {
     senderThread.start();
 }
 
-void OnlineClient::pushMessage(Message msg) {
+void OnlineClient::pushMessage(ServerMessage msg) {
     if (!prt.isClosed())
         messagesToSend.try_push(msg);
 }

@@ -12,7 +12,6 @@ class Broadcast;
 #include <vector>
 
 #include "broadcast.h"
-#include "game_action.h"
 #include "gameinprogresserror.h"
 #include "queue.h"
 #include "thread.h"
@@ -40,8 +39,6 @@ class Game /* : public Thread */ {
     Game& operator=(const Game&) = delete;
 
     //    void run() override;
-
-    void pushGameAction(GameAction gameAction);
 
     void addPlayer(unsigned int clientId);
 

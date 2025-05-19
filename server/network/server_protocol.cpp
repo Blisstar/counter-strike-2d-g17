@@ -1,8 +1,9 @@
 #include "server_protocol.h"
 
-ServerProtocol::ServerProtocol(Socket _skt) : Protocol(), skt(std::move(_skt)) {}
+ServerProtocol::ServerProtocol(Socket _skt)
+    : Protocol(), skt(std::move(_skt)) {}
 
-void ServerProtocol::sendEvent(const Event& event) {
+void ServerProtocol::sendMessage(ServerMessage msg) {
     char v = SERV_SEND_EVENT;
     sendall(skt, &v, 1);
     uint16_t enemiesAliveCnt = htons(event.enemiesAliveCnt);
@@ -12,7 +13,7 @@ void ServerProtocol::sendEvent(const Event& event) {
     sendall(skt, &event.type, 1);
 }
 
-EventType ServerProtocol::recvEvent() {
+ClientMessage ServerProtocol::recvMessage() {
     char v = 0;
     recvall(skt, &v, 1);
     if (v == SERV_RECV_ATTACK) {

@@ -43,7 +43,7 @@ class Broadcast {
 
     void disconnectInactiveClients();
 
-    void pushMessageToAll(Message msg);
+    void pushMessageToAll(ServerMessage msg);
 
     bool isClosed() const;
 

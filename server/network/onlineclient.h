@@ -15,7 +15,7 @@
 class OnlineClient {
    private:
     ServerProtocol prt;
-    Queue<Message> messagesToSend;
+    Queue<ServerMessage> messagesToSend;
     Receiver receiverThread;
     Sender senderThread;
 
@@ -29,7 +29,7 @@ class OnlineClient {
     OnlineClient(const OnlineClient&) = delete;
     OnlineClient& operator=(const OnlineClient&) = delete;
 
-    void pushMessage(Message msg);
+    void pushMessage(ServerMessage msg);
 
     void connect();
 
