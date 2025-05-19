@@ -3,18 +3,13 @@
 
 #include <variant>
 
-<<<<<<< HEAD
 // Actions that the player send
-=======
-//Actions that the player send
->>>>>>> 44da0aea7729e5f9883bfc13a11f42ae26438069
 #define CONNECT_GAME 0x00
 #define DISCONNECT_GAME 0x01
 #define CREATE_GAME 0x02
 #define START_GAME 0x03
 #define GET_LIST_GAME 0x04
 
-<<<<<<< HEAD
 // Messages that the server send
 
 enum class MessageType { Error, LobbySnapshot, RoomSnapshot, GameSnapshot };
@@ -78,15 +73,6 @@ struct Message {
 
     Message(MessageType _type, MessageData _data)
         : type(_type), data(std::move(_data)) {}
-=======
-//Messages that the server send
-
-enum class MessageType {
-    Error,
-    LobbySnapshot,
-    RoomSnapshot,
-    GameSnapshot
->>>>>>> 44da0aea7729e5f9883bfc13a11f42ae26438069
 };
 
 enum class ErrorType {

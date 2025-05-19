@@ -8,8 +8,8 @@ class Game;
 #include <iostream>
 #include <string>
 
-#include "server_protocol.h"
 #include "thread.h"
+#include "server_protocol.h"
 
 class Game;
 

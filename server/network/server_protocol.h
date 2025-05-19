@@ -14,7 +14,6 @@
 #include "defs.h"
 #include "protocol.h"
 #include "prtrecvinvalidvalue.h"
-#include "socket.h"
 
 class ServerProtocol: public Protocol {
 private:
