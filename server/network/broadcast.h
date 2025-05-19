@@ -44,7 +44,11 @@ class Broadcast {
 
     void disconnectInactiveClients();
 
+<<<<<<< HEAD
     void pushMessageToAll(Message msg);
+=======
+    void pushSnapshotToAll(const GameSnapshot snapshot);
+>>>>>>> 44da0aea7729e5f9883bfc13a11f42ae26438069
 
     bool isClosed() const;
 

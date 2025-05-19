@@ -15,7 +15,11 @@
 class OnlineClient {
    private:
     ServerProtocol prt;
+<<<<<<< HEAD
     Queue<Message> messagesToSend;
+=======
+    Queue<GameSnapshot> snapshotsToSend;
+>>>>>>> 44da0aea7729e5f9883bfc13a11f42ae26438069
     Receiver receiverThread;
     Sender senderThread;
 
@@ -29,7 +33,11 @@ class OnlineClient {
     OnlineClient(const OnlineClient&) = delete;
     OnlineClient& operator=(const OnlineClient&) = delete;
 
+<<<<<<< HEAD
     void pushMessage(Message msg);
+=======
+    void pushSnapshot(GameSnapshot snapshot);
+>>>>>>> 44da0aea7729e5f9883bfc13a11f42ae26438069
 
     void connect();
 

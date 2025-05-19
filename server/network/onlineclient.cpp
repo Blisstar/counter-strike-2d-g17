@@ -11,7 +11,11 @@ void OnlineClient::connect() {
     senderThread.start();
 }
 
+<<<<<<< HEAD
 void OnlineClient::pushMessage(Message msg) {
+=======
+void OnlineClient::pushSnapshot(GameSnapshot snapshot) {
+>>>>>>> 44da0aea7729e5f9883bfc13a11f42ae26438069
     if (!prt.isClosed())
         messagesToSend.try_push(msg);
 }

@@ -26,7 +26,12 @@ void Broadcast::connectGame(unsigned int gameId, unsigned int clientId) {
         games[gameId].addPlayer(clientId);
     } catch (const GameInProgressError& e) {
         std::cerr << e.what() << '\n';
+<<<<<<< HEAD
         onlineClients[clientId].pushMessage(Message(MessageType::Error, ErrorMessage(ErrorType::GameInProgress)));
+=======
+        MessageData 
+        onlineClients[clientId].pushSnapshot()
+>>>>>>> 44da0aea7729e5f9883bfc13a11f42ae26438069
     }
 }
 
@@ -53,7 +58,11 @@ void Broadcast::disconnectInactiveClients() {
     }
 }
 
+<<<<<<< HEAD
 void Broadcast::pushMessageToAll(Message msg) {
+=======
+void Broadcast::pushSnapshotToAll(const GameSnapshot snapshot) {
+>>>>>>> 44da0aea7729e5f9883bfc13a11f42ae26438069
     const std::lock_guard<std::mutex> lck(mtx);
     for (auto& [id, onlineClient] : onlineClients) {
         onlineClient.pushMessage(std::move(msg));

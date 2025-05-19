@@ -13,7 +13,11 @@
 class Sender : public Thread {
    private:
     ServerProtocol& prt;
+<<<<<<< HEAD
     Queue<Message>& messagesToSend;
+=======
+    Queue<Message>& snapshotsToSend;
+>>>>>>> 44da0aea7729e5f9883bfc13a11f42ae26438069
 
    public:
     Sender(ServerProtocol& _prt, Queue<Message>& q);
