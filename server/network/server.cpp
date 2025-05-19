@@ -1,6 +1,6 @@
 #include "server.h"
 
-Server::Server(const std::string& servName): acceptorSkt(servName.c_str()), game(broadcast) {}
+Server::Server(const std::string& servName): acceptorSkt(servName.c_str()) {}
 
 void Server::run() {
     Acceptor acceptor(std::move(acceptorSkt), broadcast);

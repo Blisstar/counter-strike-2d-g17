@@ -11,27 +11,35 @@ void Broadcast::addClient(Socket sktNewClient) {
 }
 
 unsigned int Broadcast::createGame(std::string gameName,
-                                   unsigned int hostClientId) {
+                                   unsigned int hostClientId,
+                                   unsigned int mapId) {
+    const std::lock_guard<std::mutex> lck(mtx);
     unsigned int gameId = nextGameId;
-    games.emplace(gameId, this, gameName);
+    games.emplace(gameId, this, gameName, mapId);
     games[gameId].addPlayer(hostClientId);
     nextGameId++;
     return gameId;
 }
 
 void Broadcast::connectGame(unsigned int gameId, unsigned int clientId) {
-    games[gameId].addPlayer(clientId);
+    try {
+        games[gameId].addPlayer(clientId);
+    } catch (const GameInProgressError& e) {
+        std::cerr << e.what() << '\n';
+        MessageData 
+        onlineClients[clientId].pushSnapshot()
+    }
 }
 
 void Broadcast::disconnectGame(unsigned int gameId, unsigned int clientId) {
-    games[gameId].removePlayer(clientId);
-    if (!games[gameId].areTherePlayers()) {
+    if (!games[gameId].removePlayer(clientId)) {
+        const std::lock_guard<std::mutex> lck(mtx);
         games.erase(gameId);
     }
 }
 
-void Game::startGame(unsigned int gameId, unsigned int hostClientId) {
-    
+void Broadcast::startGame(unsigned int gameId, unsigned int hostClientId) {
+    games[gameId].start(hostClientId);
 }
 
 void Broadcast::disconnectInactiveClients() {
@@ -46,7 +54,7 @@ void Broadcast::disconnectInactiveClients() {
     }
 }
 
-void Broadcast::pushSnapshotToAll(const Snapshot snapshot) {
+void Broadcast::pushSnapshotToAll(const GameSnapshot snapshot) {
     const std::lock_guard<std::mutex> lck(mtx);
     for (auto& [id, onlineClient] : onlineClients) {
         onlineClient.pushSnapshot(snapshot);

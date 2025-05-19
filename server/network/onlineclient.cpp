@@ -1,7 +1,7 @@
 #include "onlineclient.h"
 
-OnlineClient::OnlineClient(unsigned int clientId, unsigned int gameId, Broadcast& broadcast,
-                           Socket skt)
+OnlineClient::OnlineClient(unsigned int clientId, unsigned int gameId,
+                           Broadcast& broadcast, Socket skt)
     : prt(std::move(skt)),
       receiverThread(clientId, prt, broadcast, gameId),
       senderThread(prt, snapshotsToSend) {}
@@ -11,7 +11,7 @@ void OnlineClient::connect() {
     senderThread.start();
 }
 
-void OnlineClient::pushSnapshot(Snapshot snapshot) {
+void OnlineClient::pushSnapshot(GameSnapshot snapshot) {
     if (!prt.isClosed())
         snapshotsToSend.try_push(snapshot);
 }
