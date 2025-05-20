@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>JoinGameWindow</class>
+ <widget class="QWidget" name="JoinGameWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>571</width>
+    <height>483</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>571</width>
+     <height>481</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>571</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame{
+        background-color: #3e4e3e;
+        border: 2px solid #6a7a6a;
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="closeButton">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>20</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Trebuchet MS</family>
+      <pointsize>10</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">    QPushButton {
+        background-color: #7e8c72;
+        border-top: 2px solid #d7dacd;
+        border-left: 2px solid #d7dacd;
+        border-bottom: 2px solid #4a4a4a;
+        border-right: 2px solid #4a4a4a;
+        padding: 4px 10px;
+        color: white;
+        font-weight: bold;
+		 font-size: 10pt;
+    }
+
+    QPushButton:hover {
+        background-color: #96a783;
+    }
+
+    QPushButton:pressed {
+        border-top: 2px solid #4a4a4a;
+        border-left: 2px solid #4a4a4a;
+        border-bottom: 2px solid #d7dacd;
+        border-right: 2px solid #d7dacd;
+        background-color: #6b7960;
+    }</string>
+    </property>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="statusLabel">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>40</y>
+      <width>231</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+color: #d3b84b;
+border: &quot;none&quot;;
+font-family: &quot;Verdana&quot;;
+font-size: 14pt;
+}</string>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="gamesList">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>80</y>
+      <width>371</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QListWidget{
+background: #3f4638;
+border: &quot;none&quot;;
+font-family: &quot;Verdana&quot;;
+font-size: 14pt;
+         color: white;
+}
+
+QListWidget::item:selected {
+background-color: #968831;  
+
+}</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>330</y>
+      <width>191</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="joinButton">
+       <property name="styleSheet">
+        <string notr="true">    QPushButton {
+        background-color: #7e8c72;
+        border-top: 2px solid #d7dacd;
+        border-left: 2px solid #d7dacd;
+        border-bottom: 2px solid #4a4a4a;
+        border-right: 2px solid #4a4a4a;
+        padding: 4px 10px;
+        color: white;
+        font-weight: bold;
+		 font-size: 12pt;
+		font-family: &quot;Verdana&quot;;
+    }
+
+    QPushButton:hover {
+        background-color: #96a783;
+    }
+
+    QPushButton:pressed {
+        border-top: 2px solid #4a4a4a;
+        border-left: 2px solid #4a4a4a;
+        border-bottom: 2px solid #d7dacd;
+        border-right: 2px solid #d7dacd;
+        background-color: #6b7960;
+    }</string>
+       </property>
+       <property name="text">
+        <string>Join</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="styleSheet">
+        <string notr="true">    QPushButton {
+        background-color: #7e8c72;
+        border-top: 2px solid #d7dacd;
+        border-left: 2px solid #d7dacd;
+        border-bottom: 2px solid #4a4a4a;
+        border-right: 2px solid #4a4a4a;
+        padding: 4px 10px;
+        color: white;
+        font-weight: bold;
+		 font-size: 12pt;
+		font-family: &quot;Verdana&quot;;
+    }
+
+    QPushButton:hover {
+        background-color: #96a783;
+    }
+
+    QPushButton:pressed {
+        border-top: 2px solid #4a4a4a;
+        border-left: 2px solid #4a4a4a;
+        border-bottom: 2px solid #d7dacd;
+        border-right: 2px solid #d7dacd;
+        background-color: #6b7960;
+    }</string>
+       </property>
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

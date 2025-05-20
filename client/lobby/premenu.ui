@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PreMenu</class>
+ <widget class="QWidget" name="PreMenu">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>412</width>
+    <height>382</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>411</width>
+     <height>371</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame{
+        background-color: #3e4e3e;
+        border: 2px solid #6a7a6a;
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="acceptButton">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>290</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Connect</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="closeButton">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>20</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Trebuchet MS</family>
+      <pointsize>10</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">    QPushButton {
+        background-color: #7e8c72;
+        border-top: 2px solid #d7dacd;
+        border-left: 2px solid #d7dacd;
+        border-bottom: 2px solid #4a4a4a;
+        border-right: 2px solid #4a4a4a;
+        padding: 4px 10px;
+        color: white;
+        font-weight: bold;
+		 font-size: 10pt;
+    }
+
+    QPushButton:hover {
+        background-color: #96a783;
+    }
+
+    QPushButton:pressed {
+        border-top: 2px solid #4a4a4a;
+        border-left: 2px solid #4a4a4a;
+        border-bottom: 2px solid #d7dacd;
+        border-right: 2px solid #d7dacd;
+        background-color: #6b7960;
+    }</string>
+    </property>
+    <property name="text">
+     <string>X</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>90</y>
+      <width>301</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+color: #d3b84b;
+border: &quot;none&quot;;
+	font-family: &quot;Verdana&quot;;
+}</string>
+       </property>
+       <property name="text">
+        <string>Hostname</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="ipInput">
+       <property name="styleSheet">
+        <string notr="true">QLineEdit {
+    background-color: #4a5236;  
+    color: #d3b84b;             
+    border: 1px solid #606640;   
+    padding: 5px 18px 5px 5px;  
+    border-radius: 3px;          
+    min-width: 6em;
+}
+
+QLineEdit:hover {
+    border: 1px solid #a4b066; 
+}
+</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>180</y>
+      <width>301</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+color: #d3b84b;
+border: &quot;none&quot;;
+	font-family: &quot;Verdana&quot;;
+}</string>
+       </property>
+       <property name="text">
+        <string>Port</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="portInput">
+       <property name="styleSheet">
+        <string notr="true">QLineEdit {
+    background-color: #4a5236;  
+    color: #d3b84b;             
+    border: 1px solid #606640;   
+    padding: 5px 18px 5px 5px;  
+    border-radius: 3px;          
+    min-width: 6em;
+}
+
+QLineEdit:hover {
+    border: 1px solid #a4b066; 
+}
+</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
