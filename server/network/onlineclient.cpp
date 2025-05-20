@@ -1,9 +1,9 @@
 #include "onlineclient.h"
 
-OnlineClient::OnlineClient(unsigned int clientId, unsigned int gameId,
-                           Broadcast& broadcast, Socket skt)
+OnlineClient::OnlineClient(unsigned int clientId, Broadcast& broadcast,
+                           Socket skt)
     : prt(std::move(skt)),
-      receiverThread(clientId, prt, broadcast, gameId),
+      receiverThread(clientId, prt, broadcast),
       senderThread(prt, messagesToSend) {}
 
 void OnlineClient::connect() {
@@ -13,7 +13,7 @@ void OnlineClient::connect() {
 
 void OnlineClient::pushMessage(ServerMessage msg) {
     if (!prt.isClosed())
-        messagesToSend.try_push(msg);
+        messagesToSend.try_push(std::move(msg));
 }
 
 void OnlineClient::disconnect() {

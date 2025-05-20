@@ -10,9 +10,9 @@
 #include <string>
 #include <utility>
 
-#include "game.h"
-#include "socket.h"
-#include "thread.h"
+#include "game/game.h"
+#include "../common/socket.h"
+#include "../common/thread.h"
 
 class Acceptor : public Thread {
    private:

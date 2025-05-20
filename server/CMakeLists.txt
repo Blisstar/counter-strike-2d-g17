@@ -2,9 +2,6 @@
 file(GLOB_RECURSE CPP_FILES CONFIGURE_DEPENDS *.cpp)
 file(GLOB_RECURSE HPP_FILES CONFIGURE_DEPENDS *.hpp)
 
-# Crear el ejecutable
-add_executable(cs2d_server)
-
 # Agregar los archivos fuente
 target_sources(cs2d_server
     PRIVATE ${CPP_FILES}

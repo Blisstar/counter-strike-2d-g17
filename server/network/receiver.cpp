@@ -3,8 +3,8 @@
 #include "game.h"
 
 Receiver::Receiver(unsigned int _clientId, ServerProtocol& _prt,
-                   Broadcast& _broadcast, unsigned int _idGame)
-    : clientId(clientId), prt(_prt), broadcast(_broadcast) {}
+                   Broadcast& _broadcast)
+    : clientId(clientId), prt(_prt), broadcast(_broadcast), gameId(0) {}
 
 void Receiver::run() {
     while (!prt.isClosed()) {
@@ -34,8 +34,9 @@ void Receiver::run() {
                 broadcast.startGame(gameId, clientId);
                 break;
             }
-            default:
+            default: {
                 break;
+            }
             }
         } catch (const std::exception& e) {
             prt.close();

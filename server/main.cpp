@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "server.h"
+#include "network/server.h"
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {

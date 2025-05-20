@@ -4,28 +4,56 @@ ServerProtocol::ServerProtocol(Socket _skt)
     : Protocol(), skt(std::move(_skt)) {}
 
 void ServerProtocol::sendMessage(ServerMessage msg) {
-    char v = SERV_SEND_EVENT;
-    sendall(skt, &v, 1);
-    uint16_t enemiesAliveCnt = htons(event.enemiesAliveCnt);
-    uint16_t enemiesDeadCnt = htons(event.enemiesDeadCnt);
-    sendall(skt, &enemiesAliveCnt, 2);
-    sendall(skt, &enemiesDeadCnt, 2);
-    sendall(skt, &event.type, 1);
+    sendall(skt, &msg.type, 1);
+    switch (msg.type)
+    {
+    case ServerMessageType::Error :
+        ErrorMessage e = std::get<ErrorMessage>(msg.data);
+        sendall(skt, &e.type, 1);
+        break;
+
+    case ServerMessageType::LobbySnapshot :
+        /* code */
+        break;
+
+    case ServerMessageType::RoomSnapshot :
+        /* code */
+        break;
+        
+    case ServerMessageType::GameSnapshot :
+        /* code */
+        break;
+        
+    default:
+        break;
+    }
 }
 
 ClientMessage ServerProtocol::recvMessage() {
     ClientMessageType t = ClientMessageType::InvalidClientMessage;
-    ClientMessageData d;
+    ClientMessageData d = std::monostate{}; // Ensure d is initialized
     recvall(skt, &t, 1);
     switch (t)
     {
+    case ClientMessageType::CreateGame :
+        {
+            std::string gameName = recvString(skt);
+            unsigned int mapId = recvShort(skt);
+            d = CreateGame(gameName, mapId);
+        }
+        break;
+
     case ClientMessageType::ConnectGame :
-        /* code */
+        {
+            unsigned int gameId = recvShort(skt);
+            d = ConnectGame(gameId);
+        }
         break;
     
     default:
         break;
     }
+    return ClientMessage{t, d};
 }
 
 void ServerProtocol::close() {

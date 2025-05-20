@@ -6,9 +6,9 @@
 #include <iostream>
 #include <string>
 
-#include "queue.h"
+#include "../common/queue.h"
 #include "server_protocol.h"
-#include "thread.h"
+#include "../common/thread.h"
 
 class Sender : public Thread {
    private:

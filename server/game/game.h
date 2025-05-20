@@ -11,10 +11,9 @@ class Broadcast;
 #include <utility>
 #include <vector>
 
-#include "broadcast.h"
-#include "gameinprogresserror.h"
-#include "queue.h"
-#include "thread.h"
+#include "network/broadcast.h"
+#include "errors/gameinprogresserror.h"
+#include "../common/queue.h"
 
 class Game /* : public Thread */ {
    private:
@@ -32,8 +31,7 @@ class Game /* : public Thread */ {
         GameSnapshot makeSnapshot();
      */
    public:
-    explicit Game(Broadcast& _broadcast, std::string _gameName,
-                  unsigned int _mapId);
+   Game(Broadcast& _broadcast, std::string _gameName, unsigned int _mapId);
 
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;

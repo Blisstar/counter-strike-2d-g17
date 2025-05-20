@@ -5,7 +5,7 @@
 
 // Messages that the player send
 
-enum class ClientMessageType {
+enum class ClientMessageType : uint8_t {
     InvalidClientMessage = 0x00,
     CreateGame = 0x01,
     ConnectGame = 0x02,
@@ -49,7 +49,10 @@ enum class ServerMessageType : uint8_t {
     GameSnapshot = 0x04
 };
 
-enum class ErrorType { GameInProgress, GameIsFull };
+enum class ErrorType : uint8_t { 
+    GameInProgress = 0x00,
+    GameIsFull = 0x01
+};
 
 struct ErrorMessage {
     ErrorType type;
@@ -99,7 +102,7 @@ struct GameSnapshot {
 };
 
 using ServerMessageData =
-    std::variant<ErrorMessage, std::unique_ptr<LobbySnapshot>,
+    std::variant<std::monostate, ErrorMessage, std::unique_ptr<LobbySnapshot>,
                  std::unique_ptr<RoomSnapshot>, std::unique_ptr<GameSnapshot>>;
 
 struct ServerMessage {

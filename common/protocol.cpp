@@ -25,13 +25,13 @@ void Protocol::sendLong(Socket& skt, void* data) {
 }
 
 uint16_t Protocol::recvShort(Socket& skt) {
-    uint16_t d;
+    uint16_t d = 0;
     sendall(skt, &d, 2);
     return ntohs(d);
 }
 
 uint32_t Protocol::recvLong(Socket& skt) {
-    uint32_t d;
+    uint32_t d = 0;
     sendall(skt, &d, 4);
     return ntohs(d);
 }

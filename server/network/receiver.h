@@ -8,7 +8,7 @@ class Game;
 #include <iostream>
 #include <string>
 
-#include "thread.h"
+#include "../common/thread.h"
 #include "server_protocol.h"
 
 class Game;
@@ -21,7 +21,7 @@ class Receiver : public Thread {
     unsigned int gameId;
 
    public:
-    Receiver(unsigned int _clientId, ServerProtocol& _prt, Broadcast& _broadcast, unsigned int _gameId);
+    Receiver(unsigned int _clientId, ServerProtocol& _prt, Broadcast& _broadcast);
 
     Receiver(const Receiver&) = delete;
     Receiver& operator=(const Receiver&) = delete;

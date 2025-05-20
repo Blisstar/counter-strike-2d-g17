@@ -8,7 +8,7 @@
 #include <utility>
 
 #include "broadcast.h"
-#include "queue.h"
+#include "../common/queue.h"
 #include "receiver.h"
 #include "sender.h"
 
@@ -23,7 +23,7 @@ class OnlineClient {
     void disconnect();
 
    public:
-    OnlineClient(unsigned int clientId, unsigned int gameId,
+    OnlineClient(unsigned int clientId,
                  Broadcast& broadcast, Socket skt);
 
     OnlineClient(const OnlineClient&) = delete;

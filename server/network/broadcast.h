@@ -11,9 +11,10 @@ class OnlineClient;
 #include <unordered_map>
 #include <utility>
 
-#include "game.h"
+#include "game/game.h"
 #include "onlineclient.h"
-#include "queue.h"
+#include "../common/socket.h"
+#include "../common/defs.h"
 
 class Broadcast {
    private:
