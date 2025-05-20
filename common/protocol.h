@@ -24,10 +24,23 @@ class Protocol {
 
     void recvall(Socket& skt, void* data, unsigned int sz);
 
+    void sendShort(Socket& skt, void* data);
+
+    void sendLong(Socket& skt, void* data);
+
+    uint16_t recvShort(Socket& skt);
+
+    uint32_t recvLong(Socket& skt);
+
+    void sendString(Socket& skt, const std::string &data);
+
+    std::string recvString(Socket& skt);
+    
    private:
     void checkIfItsClosed(const Socket& skt);
 
    public:
     bool isClosed() const;
 };
+
 #endif

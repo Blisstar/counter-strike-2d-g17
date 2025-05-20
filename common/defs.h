@@ -44,7 +44,7 @@ struct ClientMessage {
 enum class ServerMessageType : uint8_t {
     InvalidServerMessage = 0x00,
     Error = 0x01,
-    LobbySnapshot = 0x02, gameCount<uint16_t> id<uint16_t> size<uint8_t> name
+    LobbySnapshot = 0x02,
     RoomSnapshot = 0x03,
     GameSnapshot = 0x04
 };
