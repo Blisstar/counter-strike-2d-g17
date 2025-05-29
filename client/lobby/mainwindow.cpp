@@ -52,8 +52,7 @@ void MainWindow::showMenuButtons(bool show){
 
 void MainWindow::on_newgameButton_clicked()
 {
-    NewGameWindow *win = new NewGameWindow(this);
-    win->setWindowModality(Qt::ApplicationModal);
+    auto *win = new NewGameWindow(this);
     win->show();
 }
 

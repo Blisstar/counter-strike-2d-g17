@@ -94,8 +94,8 @@
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>410</y>
+      <x>290</x>
+      <y>480</y>
       <width>171</width>
       <height>32</height>
      </rect>
@@ -142,7 +142,7 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>50</x>
       <y>30</y>
       <width>151</width>
       <height>31</height>
@@ -161,85 +161,10 @@
      <string>Create Game</string>
     </property>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>250</y>
-      <width>381</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="maximumSize">
-        <size>
-         <width>60</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QLabel{
-color: #d3b84b;
-border: &quot;none&quot;;
-	font-family: &quot;Verdana&quot;;
-}</string>
-       </property>
-       <property name="text">
-        <string>Map</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignmentFlag::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="mapSelector">
-       <property name="styleSheet">
-        <string notr="true">QComboBox {
-    background-color: #4a5236;  
-    color: #d3b84b;             
-    border: 1px solid #606640;   
-    padding: 5px 18px 5px 5px;  
-    border-radius: 3px;          
-    min-width: 6em;
-}
-
-QComboBox:hover {
-    border: 1px solid #a4b066; 
-}
-
-QComboBox::drop-down {
-    subcontrol-origin: padding;
-    subcontrol-position: top right;
-    width: 15px;
-    border-left: 1px solid #606640;
-    background-color: #4a5236;
-}
-
-
-QComboBox QAbstractItemView {
-    background-color: #4a5236;
-    border: 1px solid #606640;
-    selection-background-color: #636e3f;
-    color: #d3b84b;
-}</string>
-       </property>
-       <property name="currentIndex">
-        <number>-1</number>
-       </property>
-       <property name="maxVisibleItems">
-        <number>3</number>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="Line" name="line">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>40</x>
       <y>70</y>
       <width>118</width>
       <height>3</height>
@@ -291,7 +216,7 @@ QComboBox QAbstractItemView {
    <widget class="QWidget" name="horizontalLayoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>50</x>
       <y>110</y>
       <width>381</width>
       <height>61</height>
@@ -348,7 +273,7 @@ QLineEdit:hover {
    <widget class="QWidget" name="horizontalLayoutWidget_4">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>50</x>
       <y>180</y>
       <width>381</width>
       <height>61</height>
@@ -405,21 +330,24 @@ QLineEdit:hover {
    <widget class="QWidget" name="horizontalLayoutWidget_5">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>320</y>
-      <width>212</width>
+      <x>60</x>
+      <y>380</y>
+      <width>161</width>
       <height>61</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,0">
      <property name="spacing">
-      <number>20</number>
+      <number>7</number>
      </property>
      <property name="sizeConstraint">
       <enum>QLayout::SizeConstraint::SetNoConstraint</enum>
      </property>
      <property name="leftMargin">
       <number>10</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
      </property>
      <item>
       <widget class="QLabel" name="label_5">
@@ -451,23 +379,112 @@ border: &quot;none&quot;;
     background-color: #4a5236;  
     color: #d3b84b;             
     border: 1px solid #606640;   
-    padding: 5px 18px 5px 5px;  
+    padding: 5px 18px 5px 5px;;
     border-radius: 3px;          
-    min-width: 6em;
 }
 
 QSpinBox:hover {
     border: 1px solid #a4b066; 
 }
 
+QComboBox QAbstractItemView {
+    background-color: #4a5236;
+    border: 1px solid #606640;
+    selection-background-color: #636e3f;
+    color: #d3b84b;
+}
 
+QSpinBox::focus {
+    selection-background-color: transparent;
+    selection-color: #d3b84b;
+}</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+       </property>
+       <property name="minimum">
+        <number>6</number>
+       </property>
+       <property name="maximum">
+        <number>20</number>
+       </property>
+       <property name="singleStep">
+        <number>2</number>
+       </property>
+       <property name="value">
+        <number>6</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_6">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>380</y>
+      <width>161</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,0">
+     <property name="spacing">
+      <number>7</number>
+     </property>
+     <property name="sizeConstraint">
+      <enum>QLayout::SizeConstraint::SetNoConstraint</enum>
+     </property>
+     <property name="leftMargin">
+      <number>10</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="maximumSize">
+        <size>
+         <width>60</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+color: #d3b84b;
+border: &quot;none&quot;;
+	font-family: &quot;Verdana&quot;;
+}</string>
+       </property>
+       <property name="text">
+        <string>Rounds</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="roundsSpinBox">
+       <property name="styleSheet">
+        <string notr="true">QSpinBox {
+    background-color: #4a5236;  
+    color: #d3b84b;             
+    border: 1px solid #606640;   
+    padding: 5px 18px 5px 5px;;
+    border-radius: 3px;          
+}
 
+QSpinBox:hover {
+    border: 1px solid #a4b066; 
+}
 
 QComboBox QAbstractItemView {
     background-color: #4a5236;
     border: 1px solid #606640;
     selection-background-color: #636e3f;
     color: #d3b84b;
+}
+
+QSpinBox::focus {
+    selection-background-color: transparent;
+    selection-color: #d3b84b;
 }</string>
        </property>
        <property name="alignment">
@@ -485,6 +502,49 @@ QComboBox QAbstractItemView {
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QListWidget" name="mapList">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>260</y>
+      <width>441</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QListWidget{
+border: none;
+}
+
+QListWidget::item {
+    border: 2px solid transparent;
+    padding: 5px;
+	background: none;
+}
+QListWidget::item:selected {
+    border: 2px solid #bfa949;
+	border-radius: 0;
+}</string>
+    </property>
+    <property name="movement">
+     <enum>QListView::Movement::Static</enum>
+    </property>
+    <property name="resizeMode">
+     <enum>QListView::ResizeMode::Adjust</enum>
+    </property>
+    <property name="spacing">
+     <number>10</number>
+    </property>
+    <property name="viewMode">
+     <enum>QListView::ViewMode::IconMode</enum>
+    </property>
+    <property name="selectionRectVisible">
+     <bool>false</bool>
+    </property>
+    <property name="itemAlignment">
+     <set>Qt::AlignmentFlag::AlignHCenter</set>
+    </property>
    </widget>
   </widget>
  </widget>

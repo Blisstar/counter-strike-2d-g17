@@ -32,6 +32,8 @@ signals:
 private slots:
     void on_gamesList_itemDoubleClicked(QListWidgetItem *item);
 
+    void on_refreshButton_clicked();
+
 private:
     Ui::JoinGameWindow *ui;
 

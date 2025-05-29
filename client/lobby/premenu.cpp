@@ -10,8 +10,8 @@ PreMenu::PreMenu(QWidget *parent)
     ui->setupUi(this);
     setModal(true);
 
-    setFixedSize(400, 370);
-    ui->frame->setFixedSize(400, 370);
+    setFixedSize(400, 330);
+    ui->frame->setFixedSize(400, 330);
 
     QRect parentRect = parent->rect();
     QPoint parentTopLeft = parent->mapToGlobal(parentRect.topLeft());
