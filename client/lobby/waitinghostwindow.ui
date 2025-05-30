@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WaitingHostWindow</class>
+ <widget class="QWidget" name="WaitingHostWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>344</width>
+    <height>263</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>341</width>
+     <height>261</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QFrame{
+        background-color: #3e4e3e;
+        border: 2px solid #6a7a6a;
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>150</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">    QPushButton {
+        background-color: #7e8c72;
+        border-top: 2px solid #d7dacd;
+        border-left: 2px solid #d7dacd;
+        border-bottom: 2px solid #4a4a4a;
+        border-right: 2px solid #4a4a4a;
+        padding: 4px 10px;
+        color: white;
+        font-weight: bold;
+		 font-size: 12pt;
+		font-family: &quot;Verdana&quot;;
+    }
+
+    QPushButton:hover {
+        background-color: #96a783;
+    }
+
+    QPushButton:pressed {
+        border-top: 2px solid #4a4a4a;
+        border-left: 2px solid #4a4a4a;
+        border-bottom: 2px solid #d7dacd;
+        border-right: 2px solid #d7dacd;
+        background-color: #6b7960;
+    }</string>
+    </property>
+    <property name="text">
+     <string>Start Game</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>40</y>
+      <width>251</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+color: #d3b84b;
+border: &quot;none&quot;;
+	font-family: &quot;Verdana&quot;;
+}</string>
+    </property>
+    <property name="text">
+     <string>Waiting for the game to start...</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>90</y>
+      <width>201</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+color: #d3b84b;
+border: &quot;none&quot;;
+	font-family: &quot;Verdana&quot;;
+}</string>
+    </property>
+    <property name="text">
+     <string>Players in lobby:          /</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

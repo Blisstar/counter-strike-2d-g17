@@ -1,3 +1,7 @@
 build/
+**/build/
 tags.*
 .vscode/
+.idea/
+cmake-build-*/
+**/cmake-build-*/
