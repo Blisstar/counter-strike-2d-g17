@@ -12,6 +12,7 @@ class Game;
 #include "server_protocol.h"
 
 class Game;
+class Broadcast;
 
 class Receiver : public Thread {
    private:

@@ -7,22 +7,43 @@ void ServerProtocol::sendMessage(ServerMessage msg) {
     sendall(skt, &msg.type, 1);
     switch (msg.type)
     {
-    case ServerMessageType::Error :
+    case ServerMessageType::Error : {
         ErrorMessage e = std::get<ErrorMessage>(msg.data);
         sendall(skt, &e.type, 1);
         break;
+    }
 
-    case ServerMessageType::LobbySnapshot :
-        /* code */
+    case ServerMessageType::LobbySnapshot : {
+        LobbySnapshot l = std::get<LobbySnapshot>(msg.data);
+        unsigned int s = l.roomListData.size();
+        sendLong(skt, &s);
+        for(RoomData r : l.roomListData) {
+            sendLong(skt, &r.gameId);
+            sendString(skt, r.gameName);
+            sendLong(skt, &r.mapId);
+            sendall(skt, &r.playersCount, 1);
+        }
         break;
+    }
 
-    case ServerMessageType::RoomSnapshot :
-        /* code */
+    case ServerMessageType::RoomSnapshot : {
+        RoomSnapshot r = std::get<RoomSnapshot>(msg.data);
+        sendLong(skt, &r.mapId);
+        sendall(skt, &r.isHost, 1);
+        u_int8_t s = r.connectedPlayers.size();
+        sendall(skt, &s, 1);
+        for(unsigned int i : r.connectedPlayers) sendLong(skt, &i);
         break;
+    }
         
-    case ServerMessageType::GameSnapshot :
-        /* code */
+    case ServerMessageType::GameSnapshot : {
+        GameSnapshot g = std::get<GameSnapshot>(msg.data);
+        sendall(skt, &g.state, 1);
+        u_int8_t s = g.connectedPlayers.size();
+        sendall(skt, &s, 1);
+        for(unsigned int i : g.connectedPlayers) sendLong(skt, &i);
         break;
+    }
         
     default:
         break;

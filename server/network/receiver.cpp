@@ -1,10 +1,11 @@
 #include "receiver.h"
 
-#include "game.h"
+#include "game/game.h"
+#include "broadcast.h"
 
 Receiver::Receiver(unsigned int _clientId, ServerProtocol& _prt,
                    Broadcast& _broadcast)
-    : clientId(clientId), prt(_prt), broadcast(_broadcast), gameId(0) {}
+    : clientId(_clientId), prt(_prt), broadcast(_broadcast), gameId(0) {}
 
 void Receiver::run() {
     while (!prt.isClosed()) {

@@ -102,8 +102,7 @@ struct GameSnapshot {
 };
 
 using ServerMessageData =
-    std::variant<std::monostate, ErrorMessage, std::unique_ptr<LobbySnapshot>,
-                 std::unique_ptr<RoomSnapshot>, std::unique_ptr<GameSnapshot>>;
+    std::variant<std::monostate, ErrorMessage, LobbySnapshot, RoomSnapshot, GameSnapshot>;
 
 struct ServerMessage {
     ServerMessageType type;
