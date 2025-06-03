@@ -61,6 +61,14 @@ PreMenu::PreMenu(QWidget *parent)
 
 }
 
+std::string PreMenu::getIp(){
+    return ui->ipInput->text().toStdString();
+}
+
+std::string PreMenu::getPort(){
+    return ui->portInput->text().toStdString();
+}
+
 PreMenu::~PreMenu()
 {
     delete ui;

@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QDialog>
 #include <QListWidgetItem>
+#include <../client_protocol.h>
 
 namespace Ui {
 class JoinGameWindow;
@@ -14,12 +15,12 @@ class JoinGameWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit JoinGameWindow(QWidget *parent = nullptr);
+    explicit JoinGameWindow(QWidget *parent = nullptr, ClientProtocol& _clientProtocol);
     ~JoinGameWindow();
 
     QString selectedGame;
 
-    void showGamesList(const QStringList &servers);
+    void showGamesList(const std::vector<RoomData>& rooms);
 
     void startSearch();
 
@@ -36,6 +37,7 @@ private slots:
 
 private:
     Ui::JoinGameWindow *ui;
+    ClientProtocol& clientProtocol;
 
     void onJoinClicked();
 };

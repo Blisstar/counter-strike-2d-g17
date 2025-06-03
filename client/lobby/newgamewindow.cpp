@@ -39,9 +39,10 @@ public:
 };
 
 
-NewGameWindow::NewGameWindow(QWidget *parent)
+NewGameWindow::NewGameWindow(QWidget *parent, ClientProtocol& _clientProtocol)
     : QDialog(parent)
     , ui(new Ui::NewGameWindow)
+    , clientProtocol(_clientProtocol)
 {
     ui->setupUi(this);
     setFixedSize(500, 540);

@@ -9,6 +9,7 @@ void ServerProtocol::sendMessage(ServerMessage msg) {
     {
     case ServerMessageType::Error : {
         ErrorMessage e = std::get<ErrorMessage>(msg.data);
+        //send del enum de enviar error
         sendall(skt, &e.type, 1);
         break;
     }
@@ -28,18 +29,16 @@ void ServerProtocol::sendMessage(ServerMessage msg) {
 
     case ServerMessageType::RoomSnapshot : {
         RoomSnapshot r = std::get<RoomSnapshot>(msg.data);
-        sendLong(skt, &r.mapId);
         sendall(skt, &r.isHost, 1);
-        u_int8_t s = r.connectedPlayers.size();
+        uint8_t s = r.connectedPlayers;
         sendall(skt, &s, 1);
-        for(unsigned int i : r.connectedPlayers) sendLong(skt, &i);
         break;
     }
         
     case ServerMessageType::GameSnapshot : {
         GameSnapshot g = std::get<GameSnapshot>(msg.data);
         sendall(skt, &g.state, 1);
-        u_int8_t s = g.connectedPlayers.size();
+        uint8_t s = g.connectedPlayers.size();
         sendall(skt, &s, 1);
         for(unsigned int i : g.connectedPlayers) sendLong(skt, &i);
         break;

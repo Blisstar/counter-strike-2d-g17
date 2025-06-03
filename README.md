@@ -39,3 +39,12 @@ ni scripts adicionales (como correr valgrind).
 
 **Eso esta a cargo de los estudiantes,** tal como fue mostrado
 en los tps individuales, recaps y hands-on.
+
+**Como buildear: Ejemplo con el server**
+en la carpeta raiz haces:  
+mkdir build  
+cd build  
+Luego elegis que buildear  
+cmake .. -DCS2D_SERVER=ON -DCS2D_CLIENT=OFF -DCS2D_EDITOR=OFF -DCS2D_TESTS=OFF  
+y luego compilas la parte que queres:
+make cs2d_server

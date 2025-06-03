@@ -15,6 +15,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(SOURCES
         main.cpp
         mainwindow.cpp
+        mainmenuwindow.cpp
         premenu.cpp
         newgamewindow.cpp
         joingamewindow.cpp
@@ -23,7 +24,7 @@ set(SOURCES
 )
 
 set(UIS
-        mainwindow.ui
+        mainmenuwindow.ui
         premenu.ui
         newgamewindow.ui
         joingamewindow.ui

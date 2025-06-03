@@ -3,7 +3,10 @@
 
 #include <variant>
 
-// Messages that the player send
+// Messages that the client send
+
+#define SEND_CLIENT_MESSAGE 0X00
+#define SEND_PLAYER_MESSAGE 0X01
 
 enum class ClientMessageType : uint8_t {
     InvalidClientMessage = 0x00,
@@ -13,6 +16,8 @@ enum class ClientMessageType : uint8_t {
     StartGame = 0x04,
     GetListGame = 0x05
 };
+
+
 
 struct CreateGame {
     std::string gameName;
@@ -84,13 +89,11 @@ struct LobbySnapshot {
 };
 
 struct RoomSnapshot {
-    std::vector<unsigned int> connectedPlayers;
-    unsigned int mapId;
+    uint8_t connectedPlayers;
     bool isHost;
 
-    RoomSnapshot(std::vector<unsigned int> _connectedPlayers,
-                 unsigned int _mapId, bool _isHost)
-        : connectedPlayers(_connectedPlayers), mapId(_mapId), isHost(_isHost) {}
+    RoomSnapshot(uint8_t _connectedPlayers, bool _isHost)
+        : connectedPlayers(_connectedPlayers), isHost(_isHost) {}
 };
 
 struct GameSnapshot {
@@ -111,5 +114,36 @@ struct ServerMessage {
     ServerMessage(ServerMessageType _type, ServerMessageData _data)
         : type(_type), data(std::move(_data)) {}
 };
+
+
+
+// Messages that the player send
+
+struct PlayerMsg {
+    PlayerMessageType t;
+    uint16_t firstParameter;
+}
+
+enum class PlayerMessageType : uint8_t {
+    MoveUp = 0x10,
+    MoveRight = 0x11,
+    MoveDown = 0x12,
+    MoveLeft = 0x13,
+    BuyWeapon = 0x20
+};
+
+struct MovePlayer {
+    char direction;
+    MovePlayer(char _direction) : direction(_direction) {}
+};
+
+struct BuyWeapon {
+    uint8_t weapon;
+    MovePlayer(uint8_t weapon) : weapon(_weapon) {}
+};
+
+
+
+
 
 #endif

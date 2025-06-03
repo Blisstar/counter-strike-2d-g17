@@ -19,17 +19,5 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
-    void showMenuButtons(bool show);
-
-private slots:
-    void on_newgameButton_clicked();
-
-    void on_findserversButton_clicked();
-
-    void on_quitButton_clicked();
-
-private:
-    Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

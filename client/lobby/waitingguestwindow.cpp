@@ -1,9 +1,10 @@
 #include "waitingguestwindow.h"
 #include "ui_waitingguestwindow.h"
 
-WaitingGuestWindow::WaitingGuestWindow(QWidget *parent)
+WaitingGuestWindow::WaitingGuestWindow(QWidget *parent, ClientProtocol& _clientProtocol)
     : QDialog(parent)
     , ui(new Ui::WaitingGuestWindow)
+    , clientProtocol(_clientProtocol)
 {
     ui->setupUi(this);
     setFixedSize(300, 200);

@@ -27,7 +27,9 @@ class ClientProtocol : public Protocol {
 
     void send_message(ClientMessage msg);
 
-    ServerMessage recv_message();
+    LobbySnapshot recvLobbySnapshot();
+
+    RoomSnapshot recvRoomSnapshot();
 
     void close();
 };

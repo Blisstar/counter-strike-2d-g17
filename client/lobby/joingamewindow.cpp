@@ -1,25 +1,26 @@
 #include "joingamewindow.h"
+
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QMessageBox>
+#include <QTimer>
+#include <QWidget>
+
 #include "ui_joingamewindow.h"
 #include "waitingguestwindow.h"
 
-#include <QTimer>
-#include <QMessageBox>
-#include <QWidget>
-#include <QHBoxLayout>
-#include <QLabel>
-
 class ServerListItem : public QWidget {
-public:
-    ServerListItem(const QString &name, const QString &map, int players, QWidget *parent = nullptr)
+   public:
+    ServerListItem(const QString &name, const QString &map, uint8_t players,
+                   QWidget *parent = nullptr)
         : QWidget(parent) {
-
         auto *layout = new QHBoxLayout(this);
         layout->setContentsMargins(5, 2, 5, 2);
         layout->setSpacing(15);
 
         QLabel *nameLabel = new QLabel(name);
         QLabel *mapLabel = new QLabel(map);
-        QLabel *playersLabel = new QLabel(QString("%1/").arg(players));
+        QLabel *playersLabel = new QLabel(QString("%1/16").arg(players));
         QString style = "background: transparent; border: none; color: white;";
 
         nameLabel->setStyleSheet(style);
@@ -37,10 +38,10 @@ public:
     }
 };
 
-JoinGameWindow::JoinGameWindow(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::JoinGameWindow)
-{
+JoinGameWindow::JoinGameWindow(QWidget *parent, ClientProtocol &_clientProtocol)
+    : QDialog(parent),
+      ui(new Ui::JoinGameWindow),
+      clientProtocol(_clientProtocol) {
     ui->setupUi(this);
     setFixedSize(480, 470);
     ui->frame->setFixedSize(480, 470);
@@ -55,25 +56,27 @@ JoinGameWindow::JoinGameWindow(QWidget *parent)
 
     this->move(x, y);
 
-    connect(ui->closeButton, &QPushButton::clicked, this, &JoinGameWindow::close);
-    connect(ui->cancelButton, &QPushButton::clicked, this, &JoinGameWindow::close);
-    connect(ui->joinButton, &QPushButton::clicked, this, &JoinGameWindow::onJoinClicked);
+    connect(ui->closeButton, &QPushButton::clicked, this,
+            &JoinGameWindow::close);
+    connect(ui->cancelButton, &QPushButton::clicked, this,
+            &JoinGameWindow::close);
+    connect(ui->joinButton, &QPushButton::clicked, this,
+            &JoinGameWindow::onJoinClicked);
 }
 
-JoinGameWindow::~JoinGameWindow()
-{
+JoinGameWindow::~JoinGameWindow() {
     delete ui;
 }
 
-void JoinGameWindow::showGamesList(const QStringList &servers) {
+void JoinGameWindow::showGamesList(const std::vector<RoomData>& rooms) {
     ui->statusLabel->setText("Servers");
     ui->gamesList->clear();
 
-    for (const QString &server : servers) {
-        QStringList parts = server.split('|');
-        QString name = parts.value(0, "Unknown");
-        QString map = parts.value(1, "Unknown Map");
-        int players = parts.value(2, "0").toInt();
+    std::vector<std::string> maps = {"Dust2", "Aztec", "Nuke"};
+    for (const RoomData &room : rooms) {
+        QString name(room.gameName.c_str());
+        QString map(maps.at(room.mapId).c_str());
+        uint8_t players = room.playersCount;
 
         QListWidgetItem *item = new QListWidgetItem(ui->gamesList);
         ServerListItem *widget = new ServerListItem(name, map, players);
@@ -86,18 +89,15 @@ void JoinGameWindow::showGamesList(const QStringList &servers) {
     ui->gamesList->show();
 }
 
-void JoinGameWindow::startSearch(){
+void JoinGameWindow::startSearch() {
     ui->statusLabel->setText("Searching for servers...");
 
-    //emit requestGamesList();
-
-    QTimer::singleShot(5000, this, [=]() {
-        QStringList servers = {
-            "Game 1|Dust2|5",
-            "Game 2|Aztec|3",
-            "Game 3|Nuke|7"
-        };
-        showGamesList(servers);
+    ClientMessageType t(ClientMessageType::GetListGame);
+    ClientMessage c(t, std::monostate{});
+    clientProtocol.send_message(c);
+    QTimer::singleShot(2500, this, [=]() {
+        LobbySnapshot l = clientProtocol.recvLobbySnapshot();
+        showGamesList(l.roomListData);
     });
 }
 
@@ -107,7 +107,8 @@ void JoinGameWindow::onJoinClicked() {
         selectedGame = item->text();
         accept();
     } else {
-        QMessageBox::warning(this, "No server selected", "Please, select a server to join.");
+        QMessageBox::warning(this, "No server selected",
+                             "Please, select a server to join.");
     }
 
     WaitingGuestWindow *win = new WaitingGuestWindow(this->parentWidget());
@@ -121,20 +122,17 @@ QString JoinGameWindow::getSelectedGame() const {
     return selectedGame;
 }
 
-void JoinGameWindow::on_gamesList_itemDoubleClicked(QListWidgetItem *item)
-{
+void JoinGameWindow::on_gamesList_itemDoubleClicked(QListWidgetItem *item) {
     if (item) {
         selectedGame = item->text();
         accept();
     } else {
-        QMessageBox::warning(this, "No server selected", "Please, select a server to join.");
+        QMessageBox::warning(this, "No server selected",
+                             "Please, select a server to join.");
     }
 }
 
-
-void JoinGameWindow::on_refreshButton_clicked()
-{
+void JoinGameWindow::on_refreshButton_clicked() {
     ui->gamesList->clear();
     startSearch();
 }
-

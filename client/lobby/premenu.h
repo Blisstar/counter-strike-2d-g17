@@ -18,6 +18,10 @@ public:
 private slots:
     void on_closeButton_clicked();
 
+    std::string getIp();
+
+    std::string getPort();
+
 private:
     Ui::PreMenu *ui;
 };
