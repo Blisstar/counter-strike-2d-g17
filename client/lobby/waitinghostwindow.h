@@ -13,7 +13,7 @@ class WaitingHostWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit WaitingHostWindow(QWidget *parent = nullptr, ClientProtocol& _clientProtocol);
+    WaitingHostWindow(ClientProtocol& _clientProtocol, QWidget *parent = nullptr);
     ~WaitingHostWindow();
 
 private:

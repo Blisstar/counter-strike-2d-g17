@@ -22,15 +22,17 @@ enum class ClientMessageType : uint8_t {
 struct CreateGame {
     std::string gameName;
     unsigned int mapId;
+    std::string playerName;
 
-    CreateGame(std::string _gameName, unsigned int _mapId): gameName(_gameName), mapId(_mapId) {}
+    CreateGame(std::string _gameName, unsigned int _mapId, std::string _playerName): gameName(_gameName), mapId(_mapId), playerName(_playerName) {}
     
 };
 
 struct ConnectGame {
     unsigned int gameId;
+    std::string playerName;
 
-    ConnectGame(unsigned int _gameId): gameId(_gameId) {}
+    ConnectGame(unsigned int _gameId, std::string _playerName): gameId(_gameId), playerName(_playerName) {}
 
 };
 
@@ -89,11 +91,11 @@ struct LobbySnapshot {
 };
 
 struct RoomSnapshot {
-    uint8_t connectedPlayers;
+    uint8_t playersCount;
     bool isHost;
 
-    RoomSnapshot(uint8_t _connectedPlayers, bool _isHost)
-        : connectedPlayers(_connectedPlayers), isHost(_isHost) {}
+    RoomSnapshot(uint8_t _playersCount, bool _isHost)
+        : playersCount(_playersCount), isHost(_isHost) {}
 };
 
 struct GameSnapshot {
@@ -119,7 +121,7 @@ struct ServerMessage {
 
 // Messages that the player send
 
-struct PlayerMsg {
+/* struct PlayerMsg {
     PlayerMessageType t;
     uint16_t firstParameter;
 }
@@ -141,9 +143,5 @@ struct BuyWeapon {
     uint8_t weapon;
     MovePlayer(uint8_t weapon) : weapon(_weapon) {}
 };
-
-
-
-
-
+ */
 #endif

@@ -8,6 +8,7 @@ void Sender::run() {
         try {
             prt.sendMessage(messagesToSend.pop());
         } catch (const std::exception& e) {
+            std::cerr << "[Sender] Error: " << e.what() << std::endl;
             prt.close();
             break;
         }

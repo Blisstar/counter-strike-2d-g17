@@ -13,7 +13,7 @@ void OnlineClient::connect() {
 
 void OnlineClient::pushMessage(ServerMessage msg) {
     if (!prt.isClosed())
-        messagesToSend.try_push(std::move(msg));
+        messagesToSend.try_push(msg);
 }
 
 void OnlineClient::disconnect() {

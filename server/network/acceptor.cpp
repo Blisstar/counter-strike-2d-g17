@@ -7,9 +7,11 @@ void Acceptor::run() {
     while (should_keep_running()) {
         try {
             Socket newClient = skt.accept();
-
+            std::cout << "se acepto al nuevo cliente" << std::endl;
             reap_dead();
+            std::cout << "se eliminaron los inactivos" << std::endl;
             broadcast.addClient(std::move(newClient));
+            std::cout << "se agrego el nuevo cliente" << std::endl;
         } catch (const std::exception& e) {
             kill_all();
             stop();

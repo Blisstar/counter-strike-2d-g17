@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QDialog>
 #include <QListWidgetItem>
-#include <../client_protocol.h>
+#include "../client_protocol.h"
 
 namespace Ui {
 class JoinGameWindow;
@@ -15,7 +15,7 @@ class JoinGameWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit JoinGameWindow(QWidget *parent = nullptr, ClientProtocol& _clientProtocol);
+    JoinGameWindow(ClientProtocol& _clientProtocol, QWidget *parent = nullptr);
     ~JoinGameWindow();
 
     QString selectedGame;

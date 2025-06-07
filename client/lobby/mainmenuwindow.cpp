@@ -11,8 +11,8 @@
 #include "newgamewindow.h"
 #include "ui_mainmenuwindow.h"
 
-MainMenuWindow::MainMenuWindow(QWidget *parent, const char *servname,
-                               const char *port)
+MainMenuWindow::MainMenuWindow(const char *servname,
+                               const char *port, QWidget *parent)
     : QWidget(parent),
       ui(new Ui::MainMenuWindow),
       clientProtocol(servname, port) {
@@ -46,12 +46,12 @@ void MainMenuWindow::showMenuButtons(bool show) {
 }
 
 void MainMenuWindow::on_newgameButton_clicked() {
-    auto *win = new NewGameWindow(this, clientProtocol);
+    auto *win = new NewGameWindow(clientProtocol, this);
     win->show();
 }
 
 void MainMenuWindow::on_findserversButton_clicked() {
-    auto *dialog = new JoinGameWindow(this, clientProtocol);
+    auto *dialog = new JoinGameWindow(clientProtocol, this);
     dialog->show();
     dialog->startSearch();
 

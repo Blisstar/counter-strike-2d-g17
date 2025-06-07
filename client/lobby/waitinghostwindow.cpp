@@ -1,7 +1,7 @@
 #include "waitinghostwindow.h"
 #include "ui_waitinghostwindow.h"
 
-WaitingHostWindow::WaitingHostWindow(QWidget *parent, ClientProtocol& _clientProtocol)
+WaitingHostWindow::WaitingHostWindow(ClientProtocol& _clientProtocol, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::WaitingHostWindow)
     , clientProtocol(_clientProtocol)

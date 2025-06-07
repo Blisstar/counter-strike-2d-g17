@@ -34,9 +34,9 @@ class Broadcast {
     void addClient(Socket sktNewClient);
 
     unsigned int createGame(std::string gameName, unsigned int hostClientId,
-                            unsigned int mapId);
+                            unsigned int mapId, std::string playerName);
 
-    void connectGame(unsigned int gameId, unsigned int clientId);
+    void connectGame(unsigned int gameId, unsigned int clientId, std::string playerName);
 
     void disconnectGame(unsigned int gameId, unsigned int clientId);
 
@@ -45,6 +45,10 @@ class Broadcast {
     void disconnectInactiveClients();
 
     void pushMessageToAll(ServerMessage msg);
+
+    void pushMessageById(unsigned int clientId, ServerMessage msg);
+
+    void pushLobbySnapshotById(unsigned int clientId);
 
     bool isClosed() const;
 

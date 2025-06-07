@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     PreMenu premenu(this);
     if (premenu.exec() == QDialog::Accepted) {
-        auto *menu = new MainMenuWindow(premenu.getIp().c_str(), premenu.getPort().c_str());
+        auto *menu = new MainMenuWindow(premenu.getIp().c_str(), premenu.getPort().c_str(), this);
         setCentralWidget(menu);
     } else {
         QTimer::singleShot(0, this, SLOT(close()));

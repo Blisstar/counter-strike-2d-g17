@@ -24,9 +24,9 @@ class Protocol {
 
     void recvall(Socket& skt, void* data, unsigned int sz);
 
-    void sendShort(Socket& skt, void* data);
+    void sendShort(Socket& skt, uint16_t data);
 
-    void sendLong(Socket& skt, void* data);
+    void sendLong(Socket& skt, uint32_t data);
 
     uint16_t recvShort(Socket& skt);
 

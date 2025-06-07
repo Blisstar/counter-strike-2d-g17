@@ -14,13 +14,13 @@ class PreMenu : public QDialog
 public:
     explicit PreMenu(QWidget *parent = nullptr);
     ~PreMenu();
-
-private slots:
-    void on_closeButton_clicked();
-
+    
     std::string getIp();
 
     std::string getPort();
+
+private slots:
+    void on_closeButton_clicked();
 
 private:
     Ui::PreMenu *ui;

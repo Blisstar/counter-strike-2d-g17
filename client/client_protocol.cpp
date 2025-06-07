@@ -1,22 +1,28 @@
 #include "client_protocol.h"
-#include "defs.h"
-#include "../serversentincorrectmessage.h"
-#include "../servererror.h"
 
-ClientProtocol::ClientProtocol(const char* servname, const char* port) :
-    skt(Socket(servname, port)) {
+#include "../common/defs.h"
+#include "servererror.h"
+#include "serversentincorrectmessage.h"
+
+ClientProtocol::ClientProtocol(const char* servname, const char* port)
+    : skt(Socket(servname, port)) {
     wasClosed = false;
 }
 
 LobbySnapshot ClientProtocol::recvLobbySnapshot() {
     ServerMessageType t;
     recvall(skt, &t, 1);
-    if (t == ServerMessageType::Error) throw new ServerError("An error ocurred in the server");
-    if (t != ServerMessageType::LobbySnapshot) throw new ServerSentIncorrectMessage();
+
+    std::cout << "Tipo de mensaje recibido: " << static_cast<int>(t) << std::endl;
+    if (t == ServerMessageType::Error)
+        throw new ServerError("An error ocurred in the server");
+    if (t != ServerMessageType::LobbySnapshot)
+        throw new ServerSentIncorrectMessage();
 
     uint32_t s = recvLong(skt);
+    std::cout << s << std::endl;
     LobbySnapshot l;
-    for(int i = 0; i < s; i++) {
+    for (int i = 0; i < s; i++) {
         uint32_t gameId = recvLong(skt);
         std::string gameName = recvString(skt);
         uint32_t mapId = recvLong(skt);
@@ -30,8 +36,10 @@ LobbySnapshot ClientProtocol::recvLobbySnapshot() {
 RoomSnapshot ClientProtocol::recvRoomSnapshot() {
     ServerMessageType t;
     recvall(skt, &t, 1);
-    if (t == ServerMessageType::Error) throw new ServerError("An error ocurred in the server");
-    if (t != ServerMessageType::RoomSnapshot) throw new ServerSentIncorrectMessage();
+    if (t == ServerMessageType::Error)
+        throw new ServerError("An error ocurred in the server");
+    if (t != ServerMessageType::RoomSnapshot)
+        throw new ServerSentIncorrectMessage();
 
     bool isHost = false;
     uint8_t connectedPlayers = 0;
@@ -42,28 +50,25 @@ RoomSnapshot ClientProtocol::recvRoomSnapshot() {
 
 void ClientProtocol::send_message(ClientMessage msg) {
     sendall(skt, &msg.type, 1);
-    switch (msg.type)
-    {
-    case ClientMessageType::CreateGame :
-        {
+    std::cout << "envio un " << static_cast<int>(msg.type) << std::endl;
+    switch (msg.type) {
+        case ClientMessageType::CreateGame: {
             CreateGame c = std::get<CreateGame>(msg.data);
             sendString(skt, c.gameName);
-            sendShort(skt, &c.mapId);
-        }
-        break;
+            sendLong(skt, c.mapId);
+            sendString(skt, c.playerName);
+        } break;
 
-    case ClientMessageType::ConnectGame :
-        {
+        case ClientMessageType::ConnectGame: {
             ConnectGame c = std::get<ConnectGame>(msg.data);
-            sendShort(skt, &c.gameId);
-        }
-        break;
+            sendLong(skt, c.gameId);
+            sendString(skt, c.playerName);
+        } break;
 
-    default:
-        break;
-    }   
+        default:
+            break;
+    }
 }
-
 
 void ClientProtocol::close() {
     if (!wasClosed) {
@@ -72,15 +77,3 @@ void ClientProtocol::close() {
         skt.close();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

@@ -38,7 +38,7 @@ class ServerListItem : public QWidget {
     }
 };
 
-JoinGameWindow::JoinGameWindow(QWidget *parent, ClientProtocol &_clientProtocol)
+JoinGameWindow::JoinGameWindow(ClientProtocol &_clientProtocol, QWidget *parent)
     : QDialog(parent),
       ui(new Ui::JoinGameWindow),
       clientProtocol(_clientProtocol) {
@@ -90,11 +90,12 @@ void JoinGameWindow::showGamesList(const std::vector<RoomData>& rooms) {
 }
 
 void JoinGameWindow::startSearch() {
-    ui->statusLabel->setText("Searching for servers...");
-
     ClientMessageType t(ClientMessageType::GetListGame);
     ClientMessage c(t, std::monostate{});
     clientProtocol.send_message(c);
+
+    ui->statusLabel->setText("Searching for servers...");
+
     QTimer::singleShot(2500, this, [=]() {
         LobbySnapshot l = clientProtocol.recvLobbySnapshot();
         showGamesList(l.roomListData);
@@ -111,7 +112,7 @@ void JoinGameWindow::onJoinClicked() {
                              "Please, select a server to join.");
     }
 
-    WaitingGuestWindow *win = new WaitingGuestWindow(this->parentWidget());
+    WaitingGuestWindow *win = new WaitingGuestWindow(clientProtocol, this->parentWidget());
     win->setWindowModality(Qt::ApplicationModal);
     win->show();
 

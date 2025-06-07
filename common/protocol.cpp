@@ -14,26 +14,26 @@ void Protocol::recvall(Socket& skt, void* data, unsigned int sz) {
     checkIfItsClosed(skt);
 }
 
-void Protocol::sendShort(Socket& skt, void* data) {
-    uint16_t d = htons(*reinterpret_cast<uint16_t*>(data));
+void Protocol::sendShort(Socket& skt, uint16_t data) {
+    uint16_t d = htons(data);
     sendall(skt, &d, 2);
 }
 
-void Protocol::sendLong(Socket& skt, void* data) {
-    uint32_t d = htonl(*reinterpret_cast<uint32_t*>(data));
+void Protocol::sendLong(Socket& skt, uint32_t data) {
+    uint32_t d = htonl(data);
     sendall(skt, &d, 4);
 }
 
 uint16_t Protocol::recvShort(Socket& skt) {
     uint16_t d = 0;
-    sendall(skt, &d, 2);
+    recvall(skt, &d, 2);
     return ntohs(d);
 }
 
 uint32_t Protocol::recvLong(Socket& skt) {
     uint32_t d = 0;
-    sendall(skt, &d, 4);
-    return ntohs(d);
+    recvall(skt, &d, 4);
+    return ntohl(d);
 }
 
 void Protocol::sendString(Socket& skt, const std::string &data) {
@@ -47,12 +47,10 @@ std::string Protocol::recvString(Socket& skt) {
     recvall(skt, &dSize, 2);
     dSize = ntohs(dSize);
 
-    std::vector<char> str(dSize + 1);
+    std::vector<char> str(dSize);
     recvall(skt, str.data(), dSize);
-    str[dSize] = '\0';
-    std::string data(str.data());
 
-    return data;
+    return std::string(str.data(), dSize);
 }
 
 void Protocol::checkIfItsClosed(const Socket& skt) {

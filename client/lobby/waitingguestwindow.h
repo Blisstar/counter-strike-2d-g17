@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QWidget>
-#include <../client_protocol.h>
+#include "../client_protocol.h"
 
 namespace Ui {
 class WaitingGuestWindow;
@@ -14,7 +14,7 @@ class WaitingGuestWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit WaitingGuestWindow(QWidget *parent = nullptr, ClientProtocol& _clientProtocol);
+    WaitingGuestWindow(ClientProtocol& _clientProtocol, QWidget *parent = nullptr);
     ~WaitingGuestWindow();
 
 private:

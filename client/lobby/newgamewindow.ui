@@ -250,7 +250,7 @@ border: &quot;none&quot;;
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit">
+      <widget class="QLineEdit" name="inputPlayerName">
        <property name="styleSheet">
         <string notr="true">QLineEdit {
     background-color: #4a5236;  
@@ -307,7 +307,7 @@ border: &quot;none&quot;;
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_2">
+      <widget class="QLineEdit" name="inputGameName">
        <property name="styleSheet">
         <string notr="true">QLineEdit {
     background-color: #4a5236;  

@@ -39,7 +39,7 @@ public:
 };
 
 
-NewGameWindow::NewGameWindow(QWidget *parent, ClientProtocol& _clientProtocol)
+NewGameWindow::NewGameWindow(ClientProtocol& _clientProtocol, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::NewGameWindow)
     , clientProtocol(_clientProtocol)
@@ -124,11 +124,21 @@ NewGameWindow::~NewGameWindow()
 
 void NewGameWindow::on_startButton_clicked()
 {
-    WaitingHostWindow *win = new WaitingHostWindow(this->parentWidget());
-    win->setWindowModality(Qt::ApplicationModal);
-    win->show();
+    QListWidgetItem* selectedItem = ui->mapList->currentItem();
+    if (selectedItem) {
+        std::string gameName =  ui->inputGameName->text().toStdString();
+        int index = ui->mapList->row(selectedItem);
+        std::string playerName =  ui->inputPlayerName->text().toStdString();
+        
+        clientProtocol.send_message(ClientMessage(ClientMessageType::CreateGame, CreateGame(gameName, index, playerName)));
 
-    this->close();
-    this->deleteLater();
+        WaitingHostWindow *win = new WaitingHostWindow(clientProtocol, this->parentWidget());
+        win->setWindowModality(Qt::ApplicationModal);
+        win->show();
+
+        this->close();
+        this->deleteLater();
+    }
+    
 }
 

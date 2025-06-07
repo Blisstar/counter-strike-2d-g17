@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QDialog>
-#include <../client_protocol.h>
+#include "../client_protocol.h"
 
 namespace Ui {
 class NewGameWindow;
@@ -14,7 +14,7 @@ class NewGameWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit NewGameWindow(QWidget *parent = nullptr, ClientProtocol& _clientProtocol);
+    NewGameWindow(ClientProtocol& _clientProtocol, QWidget *parent = nullptr);
     ~NewGameWindow();
 
 private slots:

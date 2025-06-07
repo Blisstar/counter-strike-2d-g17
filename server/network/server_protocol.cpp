@@ -5,73 +5,73 @@ ServerProtocol::ServerProtocol(Socket _skt)
 
 void ServerProtocol::sendMessage(ServerMessage msg) {
     sendall(skt, &msg.type, 1);
-    switch (msg.type)
-    {
-    case ServerMessageType::Error : {
-        ErrorMessage e = std::get<ErrorMessage>(msg.data);
-        //send del enum de enviar error
-        sendall(skt, &e.type, 1);
-        break;
-    }
-
-    case ServerMessageType::LobbySnapshot : {
-        LobbySnapshot l = std::get<LobbySnapshot>(msg.data);
-        unsigned int s = l.roomListData.size();
-        sendLong(skt, &s);
-        for(RoomData r : l.roomListData) {
-            sendLong(skt, &r.gameId);
-            sendString(skt, r.gameName);
-            sendLong(skt, &r.mapId);
-            sendall(skt, &r.playersCount, 1);
+    switch (msg.type) {
+        case ServerMessageType::Error: {
+            std::cout << "envio un error" << std::endl;
+            ErrorMessage e = std::get<ErrorMessage>(msg.data);
+            // send del enum de enviar error
+            sendall(skt, &e.type, 1);
+            break;
         }
-        break;
-    }
 
-    case ServerMessageType::RoomSnapshot : {
-        RoomSnapshot r = std::get<RoomSnapshot>(msg.data);
-        sendall(skt, &r.isHost, 1);
-        uint8_t s = r.connectedPlayers;
-        sendall(skt, &s, 1);
-        break;
-    }
-        
-    case ServerMessageType::GameSnapshot : {
-        GameSnapshot g = std::get<GameSnapshot>(msg.data);
-        sendall(skt, &g.state, 1);
-        uint8_t s = g.connectedPlayers.size();
-        sendall(skt, &s, 1);
-        for(unsigned int i : g.connectedPlayers) sendLong(skt, &i);
-        break;
-    }
-        
-    default:
-        break;
+        case ServerMessageType::LobbySnapshot: {
+            std::cout << "envio un lobby" << std::endl;
+            LobbySnapshot l = std::get<LobbySnapshot>(msg.data);
+            unsigned int s = l.roomListData.size();
+            sendLong(skt, s);
+            for (RoomData r : l.roomListData) {
+                sendLong(skt, r.gameId);
+                sendString(skt, r.gameName);
+                sendLong(skt, r.mapId);
+                sendall(skt, &r.playersCount, 1);
+            }
+            break;
+        }
+
+        case ServerMessageType::RoomSnapshot: {
+            std::cout << "envio un room" << std::endl;
+            RoomSnapshot r = std::get<RoomSnapshot>(msg.data);
+            sendall(skt, &r.isHost, 1);
+            uint8_t s = r.playersCount;
+            sendall(skt, &s, 1);
+            break;
+        }
+
+        case ServerMessageType::GameSnapshot: {
+            std::cout << "envio un game" << std::endl;
+            GameSnapshot g = std::get<GameSnapshot>(msg.data);
+            sendall(skt, &g.state, 1);
+            uint8_t s = g.connectedPlayers.size();
+            sendall(skt, &s, 1);
+            for (unsigned int i : g.connectedPlayers) sendLong(skt, i);
+            break;
+        }
+
+        default:
+            break;
     }
 }
 
 ClientMessage ServerProtocol::recvMessage() {
     ClientMessageType t = ClientMessageType::InvalidClientMessage;
-    ClientMessageData d = std::monostate{}; // Ensure d is initialized
+    ClientMessageData d = std::monostate{};  // Ensure d is initialized
     recvall(skt, &t, 1);
-    switch (t)
-    {
-    case ClientMessageType::CreateGame :
-        {
+    switch (t) {
+        case ClientMessageType::CreateGame: {
             std::string gameName = recvString(skt);
-            unsigned int mapId = recvShort(skt);
-            d = CreateGame(gameName, mapId);
-        }
-        break;
+            unsigned int mapId = recvLong(skt);
+            std::string playerName = recvString(skt);
+            d = CreateGame(gameName, mapId, playerName);
+        } break;
 
-    case ClientMessageType::ConnectGame :
-        {
-            unsigned int gameId = recvShort(skt);
-            d = ConnectGame(gameId);
-        }
-        break;
-    
-    default:
-        break;
+        case ClientMessageType::ConnectGame: {
+            unsigned int gameId = recvLong(skt);
+            std::string playerName = recvString(skt);
+            d = ConnectGame(gameId, playerName);
+        } break;
+
+        default:
+            break;
     }
     return ClientMessage{t, d};
 }

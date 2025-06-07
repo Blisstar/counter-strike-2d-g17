@@ -12,7 +12,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+file(GLOB COMMON_SOURCES ../../common/*.cpp)
+
 set(SOURCES
+        ${COMMON_SOURCES}
+        ../client_protocol.cpp
         main.cpp
         mainwindow.cpp
         mainmenuwindow.cpp

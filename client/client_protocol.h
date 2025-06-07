@@ -11,9 +11,9 @@
 #include <utility>
 #include <vector>
 
-#include "defs.h"
-#include "protocol.h"
-#include "prtrecvinvalidvalue.h"
+#include "../common/defs.h"
+#include "../common/protocol.h"
+#include "../common/prtrecvinvalidvalue.h"
 
 class ClientProtocol : public Protocol {
    private:

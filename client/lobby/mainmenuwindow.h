@@ -2,7 +2,7 @@
 #define MAINMENUWINDOW_H
 
 #include <QWidget>
-#include <../client_protocol.h>
+#include "../client_protocol.h"
 
 namespace Ui {
 class MainMenuWindow;
@@ -13,7 +13,7 @@ class MainMenuWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit MainMenuWindow(QWidget *parent = nullptr, const char* servname, const char* port);
+    MainMenuWindow(const char* servname, const char* port, QWidget *parent = nullptr);
     ~MainMenuWindow();
 
 private slots:
