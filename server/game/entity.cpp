@@ -1,12 +1,14 @@
 #include "entity.h"
 #include <cmath>
 
-Entity::Entity(float startX, float startY, float vel) : position(startX, startY), velocity(vel) {}
+Entity::Entity(float startX, float startY, float vel) : position(startX, startY), currentDir(Direction::DOWN), velocity(vel) {}
 
-void Entity::move(Direction dir) {
+void Entity::move() {
+    if(velocity == 0) return;
+
     Vector2 delta;
 
-    switch (dir) {
+    switch (currentDir) {
         case Direction::UP:          delta = Vector2(0, -1); break;
         case Direction::DOWN:        delta = Vector2(0, 1); break;
         case Direction::LEFT:        delta = Vector2(-1, 0); break;
@@ -23,6 +25,10 @@ void Entity::move(Direction dir) {
     }
 
     position = position + delta * velocity;
+}
+
+void Entity::setDirection(Direction dir) {
+    currentDir = dir;
 }
 
 void Entity::setVelocity(float vel) {

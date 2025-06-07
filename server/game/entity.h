@@ -5,12 +5,15 @@
 class Entity {
 protected:
     Vector2 position;
+    Direction currentDir;
     float velocity;
 
 public:
     Entity(float startX = 0.0f, float startY = 0.0f, float vel = 1.0f);
 
-    void move(Direction dir);
+    void move();
+
+    void setDirection(Direction dir);
 
     void setVelocity(float vel);
 
