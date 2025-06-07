@@ -3,8 +3,9 @@
 
 #include <string>
 #include "entity.h"
+#include "ellipse.h"
 
-class Player : public Entity {
+class Player : public Entity, public Ellipse {
    private:
     unsigned int playerId;
     std::string playerName;
