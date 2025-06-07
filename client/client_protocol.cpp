@@ -20,7 +20,7 @@ LobbySnapshot ClientProtocol::recvLobbySnapshot() {
         throw new ServerSentIncorrectMessage();
 
     uint32_t s = recvLong(skt);
-    std::cout << s << std::endl;
+    std::cout << "La cantidad de rooms que hay es: " << s << std::endl;
     LobbySnapshot l;
     for (int i = 0; i < s; i++) {
         uint32_t gameId = recvLong(skt);
