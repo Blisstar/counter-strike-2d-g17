@@ -3,13 +3,15 @@
 #define ENTITY_H
 
 class Entity {
-protected:
+public:
     Vector2 position;
+
+protected:
     Direction currentDir;
     float velocity;
 
 public:
-    Entity(float startX = 0.0f, float startY = 0.0f, float vel = 1.0f);
+    Entity(float startX = 0.0f, float startY = 0.0f, float vel = 0.0f);
 
     void move();
 

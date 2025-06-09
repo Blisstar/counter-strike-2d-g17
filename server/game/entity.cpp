@@ -1,4 +1,5 @@
 #include "entity.h"
+
 #include <cmath>
 
 Entity::Entity(float startX, float startY, float vel) : position(startX, startY), currentDir(Direction::DOWN), velocity(vel) {}

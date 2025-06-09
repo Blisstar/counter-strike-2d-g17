@@ -53,6 +53,22 @@ std::string Protocol::recvString(Socket& skt) {
     return std::string(str.data(), dSize);
 }
 
+void Protocol::sendFloat(Socket& skt, float data, uint16_t decimals) {
+    sendShort(skt, decimals);
+    uint32_t floatToInt = data * (10 ** decimals);
+    sendLong(skt, floatToInt);
+
+    return;
+}
+
+float Protocol::recvFloat(Socket& skt) {
+    uint16_t decimals = recvShort(skt);
+
+    uint32_t intData =
+
+}
+
+
 void Protocol::checkIfItsClosed(const Socket& skt) {
     wasClosed = skt.is_stream_recv_closed() && skt.is_stream_send_closed();
 }

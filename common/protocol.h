@@ -35,6 +35,10 @@ class Protocol {
     void sendString(Socket& skt, const std::string &data);
 
     std::string recvString(Socket& skt);
+
+    void sendFloat(Socket& skt, float data, uint16_t decimals);
+    
+    float recvFloat(Socket& skt);
     
    private:
     void checkIfItsClosed(const Socket& skt);

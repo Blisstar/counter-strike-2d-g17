@@ -48,6 +48,19 @@ RoomSnapshot ClientProtocol::recvRoomSnapshot() {
     return RoomSnapshot(isHost, connectedPlayers);
 }
 
+
+
+PlayerSnapshot ClientProtocol::recvPlayerSnapshot() {
+    
+}
+
+
+GameSnapshot ClientProtocol::recvGameSnapshot() {
+
+}
+
+
+
 void ClientProtocol::send_message(ClientMessage msg) {
     sendall(skt, &msg.type, 1);
     std::cout << "envio un " << static_cast<int>(msg.type) << std::endl;
@@ -63,6 +76,12 @@ void ClientProtocol::send_message(ClientMessage msg) {
             ConnectGame c = std::get<ConnectGame>(msg.data);
             sendLong(skt, c.gameId);
             sendString(skt, c.playerName);
+        } break;
+
+        case ClientMessageType::PlayerMessage: {
+            PlayerMessage c = std::get<PlayerMessage>(msg.data);
+            sendall(skt, &c.type, 1);
+            sendShort(skt, c.firstParameter);
         } break;
 
         default:

@@ -31,6 +31,10 @@ class ClientProtocol : public Protocol {
 
     RoomSnapshot recvRoomSnapshot();
 
+    PlayerSnapshot recvPlayerSnapshot();
+
+    GameSnapshot recvGameSnapshot();
+
     void close();
 };
 #endif
