@@ -20,8 +20,8 @@ bool Ellipse::collidesWith(const OBB& obb) const {
     float cosA = std::cos(-obb.rotation);
     float sinA = std::sin(-obb.rotation);
 
-    float dx = position.x - obb.position.x;
-    float dy = position.y - obb.position.y;
+    float dx = position.x - obb.getPosition().x;
+    float dy = position.y - obb.getPosition().y;
 
     float localX = dx * cosA - dy * sinA;
     float localY = dx * sinA + dy * cosA;

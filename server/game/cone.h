@@ -17,7 +17,7 @@ class Cone {
    public:
     Cone(Vector2 c, float dir, float r = 1.0f, float a = 0.47f * M_PI);
 
-    bool collidesWith(const Ellipse& e) const;
+    unsigned int collidesWith(const Ellipse& e) const;
 };
 
 #endif

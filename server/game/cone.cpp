@@ -14,14 +14,15 @@ bool Cone::contains(const Vector2& point) const {
     return std::abs(diff) <= angle / 2.0f;
 }
 
-bool Cone::collidesWith(const Ellipse& e) const {
-    constexpr int NUM_SEGMENTS = 16;
-    for (int i = 0; i < NUM_SEGMENTS; ++i) {
-        float angle = (2.0f * M_PI * i) / NUM_SEGMENTS;
+unsigned int Cone::collidesWith(const Ellipse& e) const {
+    const int NUM_SEGMENTS = 16;
+    unsigned int collisionPoints = 0;
+    for (int i = 0; i < NUM_SEGMENTS; i++) {
+        float angle = (M_2_PI * i) / NUM_SEGMENTS;
         float px = e.radiusX * std::cos(angle);
         float py = e.radiusY * std::sin(angle);
-        Vector2 point = { e.position.x + px, e.position.y + py };
-        if (contains(point)) return true;
+        Vector2 point = { e.getPosition().x + px, e.getPosition().y + py };
+        if (contains(point)) collisionPoints++;
     }
-    return false;
+    return collisionPoints;
 }

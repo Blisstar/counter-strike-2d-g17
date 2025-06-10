@@ -3,24 +3,21 @@
 #define ENTITY_H
 
 class Entity {
-public:
-    Vector2 position;
-
-protected:
-    Direction currentDir;
+   public:
     float velocity;
 
-public:
+   protected:
+    Vector2 position;
+    Vector2 currentDir;
+
+   public:
     Entity(float startX = 0.0f, float startY = 0.0f, float vel = 0.0f);
 
     void move();
 
-    void setDirection(Direction dir);
-
-    void setVelocity(float vel);
+    void setDirection(float angle);
 
     Vector2 getPosition() const;
-
 };
 
 #endif
