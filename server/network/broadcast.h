@@ -11,7 +11,6 @@ class OnlineClient;
 #include <unordered_map>
 #include <utility>
 
-#include "game/game.h"
 #include "onlineclient.h"
 #include "../common/socket.h"
 #include "../common/defs.h"
@@ -20,9 +19,7 @@ class Broadcast {
    private:
     std::mutex mtx;
     std::unordered_map<unsigned int, OnlineClient> onlineClients;
-    std::unordered_map<unsigned int, Game> games;
     unsigned int nextClientId;
-    unsigned int nextGameId;
     bool wasClosed;
 
    public:

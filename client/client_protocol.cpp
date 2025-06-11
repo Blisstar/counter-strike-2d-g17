@@ -50,8 +50,39 @@ RoomSnapshot ClientProtocol::recvRoomSnapshot() {
 
 
 
-PlayerSnapshot ClientProtocol::recvPlayerSnapshot() {
+/*
+struct PlayerSnapshot {
+    unsigned int id;
+    float x, y;
+    int health;
+    int team;
+    PrimaryWeapon primaryWeapon;
+    uint16_t loaded_primary_ammo; 
+    uint16_t extra_primary_ammo;
+    uint16_t loaded_secondary_ammo; 
+    uint16_t extra_secondary_ammo;
+    bool has_bomb;
     
+};*/
+
+PlayerSnapshot ClientProtocol::recvPlayerSnapshot() {
+    unsigned int id = recvLong(skt);
+    float x = recvFloat(skt);
+    float y = recvFloat(skt);
+    int health = recvLong(skt);
+    int team = recvLong(skt);
+
+    uint8_t intWeapon = 0;
+    recvall(skt, &intWeapon, 1);
+    PrimaryWeapon primaryWeapon = <static_cast>(intWeapon);
+
+    uint16_t loaded_primary_ammo = recvShort(skt);
+    uint16_t extra_primary_ammo = recvShort(skt);
+    uint16_t loaded_secondary_ammo = recvShort(skt);
+    uint16_t extra_secondary_ammo = recvShort(skt);
+    
+
+
 }
 
 

@@ -63,9 +63,10 @@ void Protocol::sendFloat(Socket& skt, float data, uint16_t decimals) {
 
 float Protocol::recvFloat(Socket& skt) {
     uint16_t decimals = recvShort(skt);
+    uint32_t intData = recvLong(skt);
+    float data = intData / (10 ** decimals);
 
-    uint32_t intData =
-
+    return data;
 }
 
 

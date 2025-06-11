@@ -165,7 +165,9 @@ struct PlayerSnapshot {
     uint16_t loaded_secondary_ammo; 
     uint16_t extra_secondary_ammo;
     bool has_bomb;
-    
+    uint16_t money;
+    bool is_hit;
+    /*enum skin*/
 };
 
 
@@ -189,7 +191,7 @@ struct BombInfo {
 
 
 struct GameSnapshot {
-    unsigned int mapId;
+    //unsigned int mapId;
     uint8_t state;
     uint16_t round;
     std::vector<PlayerSnapshot> players;
@@ -200,6 +202,8 @@ struct GameSnapshot {
     uint16_t count_ct_alive;
     uint16_t score_tt;
     uint16_t score_ct;
+    /*map snapshot*/
+    /*tienda*/
 
     GameSnapshot(
         unsigned int _mapId,
@@ -214,7 +218,7 @@ struct GameSnapshot {
         uint16_t _score_tt,
         uint16_t _score_ct
     )
-        : mapId(_mapId),
+        : //mapId(_mapId),
           state(_state),
           round(_round),
           players(std::move(_players)),
