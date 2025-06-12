@@ -1,6 +1,6 @@
 #include "broadcast.h"
 
-Broadcast::Broadcast() : nextClientId(0), nextGameId(1), wasClosed(false) {}
+Broadcast::Broadcast() : nextClientId(0), wasClosed(false) {}
 
 void Broadcast::addClient(Socket sktNewClient) {
     const std::lock_guard<std::mutex> lck(mtx);

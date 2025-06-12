@@ -1,6 +1,8 @@
 #include "lobby.h"
 #include <gameinprogresserror.h>
 
+Lobby::Lobby(Broadcast& _broadcast) : broadcast(_broadcast) { }
+
 unsigned int Lobby::createGame(std::string gameName,
                                    unsigned int hostClientId,
                                    unsigned int mapId,
@@ -18,8 +20,7 @@ void Lobby::connectGame(unsigned int gameId, unsigned int clientId, std::string 
         games.at(gameId).addPlayer(clientId, playerName);
     } catch (const GameInProgressError& e) {
         std::cerr << e.what() << '\n';
-        onlineClients.at(clientId).pushMessage(ServerMessage(
-            ServerMessageType::Error, ErrorMessage(ErrorType::GameInProgress)));
+        broadcast.pushMessageById(clientId, ServerMessage(ServerMessageType::Error, ErrorMessage(ErrorType::GameInProgress)));
     }
 }
 
@@ -46,7 +47,6 @@ void Lobby::pushLobbySnapshotById(unsigned int clientId) {
         l.addRoomData(gameId, game.getName(), game.getMapId(), game.getPlayersCount());
     }
     std::cout << "se recibio un get 2" <<std::endl;
-    auto it = onlineClients.find(clientId);
-    if (it != onlineClients.end()) it->second.pushMessage(ServerMessage(ServerMessageType::LobbySnapshot, l));
+    broadcast.pushMessageById(clientId, ServerMessage(ServerMessageType::LobbySnapshot, l));
     std::cout << "se recibio un get 3" <<std::endl;
 }

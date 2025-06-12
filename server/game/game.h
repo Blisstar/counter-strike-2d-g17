@@ -14,14 +14,15 @@ class Broadcast;
 #include "network/broadcast.h"
 #include "errors/gameinprogresserror.h"
 #include "../common/queue.h"
+#include "../common/defs.h"
 #include "player.h"
 
 class Game /* : public Thread */ {
    private:
-    //    Queue<GameAction> gameActionsToProcess;
+    Queue<PlayerMessage> gameActionsToProcess;
     std::mutex mtx;
     Broadcast& broadcast;
-    std::vector<Player> connectedPlayers;
+    std::vector<Player> players;
     std::string gameName;
     unsigned int mapId;
     bool startedGame;
@@ -34,10 +35,12 @@ class Game /* : public Thread */ {
     void notifyRoomStateToPlayers();
 
    public:
-   Game(Broadcast& _broadcast, std::string _gameName, unsigned int _mapId);
+    Game(Broadcast& _broadcast, std::string _gameName, unsigned int _mapId);
 
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
+
+    void pushPlayerAction(PlayerMessage playerAction);
 
     std::string getName();
 

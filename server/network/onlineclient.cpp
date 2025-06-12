@@ -1,9 +1,9 @@
 #include "onlineclient.h"
 
-OnlineClient::OnlineClient(unsigned int clientId, Broadcast& broadcast,
+OnlineClient::OnlineClient(unsigned int clientId, Lobby& lobby,
                            Socket skt)
     : prt(std::move(skt)),
-      receiverThread(clientId, prt, broadcast),
+      receiverThread(clientId, prt, lobby),
       senderThread(prt, messagesToSend) {}
 
 void OnlineClient::connect() {

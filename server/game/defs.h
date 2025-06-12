@@ -1,6 +1,7 @@
-#include <cstdint>
 #ifndef DEFS.H_H
 #define DEFS.H_H
+
+#include <cstdint>
 
 enum class PlayerState : uint8_t {
     Idle = 0x00,

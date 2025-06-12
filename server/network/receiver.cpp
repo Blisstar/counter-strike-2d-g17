@@ -4,8 +4,8 @@
 #include "broadcast.h"
 
 Receiver::Receiver(unsigned int _clientId, ServerProtocol& _prt,
-                   Broadcast& _broadcast)
-    : clientId(_clientId), prt(_prt), broadcast(_broadcast), gameId(0) {}
+                   Lobby& _lobby)
+    : clientId(_clientId), prt(_prt), lobby(_lobby), gameId(0) {}
 
 void Receiver::run() {
     while (!prt.isClosed()) {
@@ -16,30 +16,30 @@ void Receiver::run() {
             case ClientMessageType::ConnectGame : {
                 std::cout << "se recibio un connect" <<std::endl;
                 ConnectGame c = std::get<ConnectGame>(msg.data);
-                broadcast.connectGame(c.gameId, clientId, c.playerName);
+                lobby.connectGame(c.gameId, clientId, c.playerName);
                 gameId = c.gameId;
                 break;
             }
             case ClientMessageType::CreateGame : {
                 std::cout << "se recibio un create" <<std::endl;
                 CreateGame c = std::get<CreateGame>(msg.data);
-                gameId = broadcast.createGame(c.gameName, clientId, c.mapId, c.playerName);
+                gameId = lobby.createGame(c.gameName, clientId, c.mapId, c.playerName);
                 break;
             }
             case ClientMessageType::DisconnectGame : {
                 std::cout << "se recibio un disconnect" <<std::endl;
-                broadcast.disconnectGame(gameId, clientId);
+                lobby.disconnectGame(gameId, clientId);
                 gameId = 0;
                 break;
             }
             case ClientMessageType::GetListGame : {
                 std::cout << "se recibio un get" <<std::endl;
-                broadcast.pushLobbySnapshotById(clientId);
+                lobby.pushLobbySnapshotById(clientId);
                 break;
             }
             case ClientMessageType::StartGame : {
                 std::cout << "se recibio un start" <<std::endl;
-                broadcast.startGame(gameId, clientId);
+                lobby.startGame(gameId, clientId);
                 break;
             }
             default: {
@@ -52,5 +52,5 @@ void Receiver::run() {
             break;
         }
     }
-    if (gameId != 0)broadcast.disconnectGame(gameId, clientId);
+    if (gameId != 0)lobby.disconnectGame(gameId, clientId);
 }

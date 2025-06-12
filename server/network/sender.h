@@ -9,6 +9,7 @@
 #include "../common/queue.h"
 #include "server_protocol.h"
 #include "../common/thread.h"
+#include "../common/defs.h"
 
 class Sender : public Thread {
    private:

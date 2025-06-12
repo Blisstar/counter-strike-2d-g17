@@ -12,17 +12,17 @@ class Game;
 #include "server_protocol.h"
 
 class Game;
-class Broadcast;
+class Lobby;
 
 class Receiver : public Thread {
    private:
     const unsigned int clientId;
     ServerProtocol& prt;
-    Broadcast& broadcast;
+    Lobby& lobby;
     unsigned int gameId;
 
    public:
-    Receiver(unsigned int _clientId, ServerProtocol& _prt, Broadcast& _broadcast);
+    Receiver(unsigned int _clientId, ServerProtocol& _prt, Lobby& _lobby);
 
     Receiver(const Receiver&) = delete;
     Receiver& operator=(const Receiver&) = delete;

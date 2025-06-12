@@ -7,7 +7,7 @@
 #include <string>
 #include <utility>
 
-#include "broadcast.h"
+#include "lobby.h"
 #include "../common/queue.h"
 #include "sender.h"
 #include "../common/thread.h"
@@ -25,7 +25,7 @@ class OnlineClient {
 
    public:
     OnlineClient(unsigned int clientId,
-                 Broadcast& broadcast, Socket skt);
+                 Lobby& lobby, Socket skt);
 
     OnlineClient(const OnlineClient&) = delete;
     OnlineClient& operator=(const OnlineClient&) = delete;

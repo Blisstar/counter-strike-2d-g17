@@ -9,12 +9,15 @@
 
 class Lobby {
    private:
+    Broadcast& broadcast;
     std::mutex mtx;
     std::unordered_map<unsigned int, Game> games;
     unsigned int nextGameId;
     bool wasClosed;
 
    public:
+    Lobby(Broadcast& _broadcast);
+
     Lobby(const Lobby&) = delete;
     Lobby& operator=(const Lobby&) = delete;
 

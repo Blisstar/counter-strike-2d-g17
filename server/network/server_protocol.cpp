@@ -41,9 +41,9 @@ void ServerProtocol::sendMessage(ServerMessage msg) {
             std::cout << "envio un game" << std::endl;
             GameSnapshot g = std::get<GameSnapshot>(msg.data);
             sendall(skt, &g.state, 1);
-            uint8_t s = g.connectedPlayers.size();
+            uint8_t s = g.players.size();
             sendall(skt, &s, 1);
-            for (unsigned int i : g.connectedPlayers) sendLong(skt, i);
+            for (PlayerSnapshot i : g.players) sendLong(skt, i.id);
             break;
         }
 

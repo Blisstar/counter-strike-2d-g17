@@ -18,6 +18,7 @@ class OnlineClient;
 class Broadcast {
    private:
     std::mutex mtx;
+    Lobby lobby;
     std::unordered_map<unsigned int, OnlineClient> onlineClients;
     unsigned int nextClientId;
     bool wasClosed;
