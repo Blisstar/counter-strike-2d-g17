@@ -1,5 +1,6 @@
 #include "lobby.h"
-#include <gameinprogresserror.h>
+
+#include "defs.h"
 
 Lobby::Lobby(Broadcast& _broadcast) : broadcast(_broadcast) { }
 
@@ -49,4 +50,9 @@ void Lobby::pushLobbySnapshotById(unsigned int clientId) {
     std::cout << "se recibio un get 2" <<std::endl;
     broadcast.pushMessageById(clientId, ServerMessage(ServerMessageType::LobbySnapshot, l));
     std::cout << "se recibio un get 3" <<std::endl;
+}
+
+void Lobby::pushGameAction(unsigned int gameId, unsigned int clientId, PlayerMessage msg){
+    auto it = games.find(clientId);
+    if (it != games.end()) it->second.pushPlayerAction(PlayerAction(clientId, msg));
 }

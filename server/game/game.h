@@ -11,27 +11,29 @@ class Broadcast;
 #include <utility>
 #include <vector>
 
-#include "network/broadcast.h"
-#include "errors/gameinprogresserror.h"
-#include "../common/queue.h"
 #include "../common/defs.h"
+#include "../common/queue.h"
+#include "errors/gameinprogresserror.h"
+#include "network/broadcast.h"
 #include "player.h"
 
-class Game /* : public Thread */ {
+class Game : public Thread {
    private:
-    Queue<PlayerMessage> gameActionsToProcess;
+    Queue<PlayerAction> playerActionsToProcess;
     std::mutex mtx;
     Broadcast& broadcast;
     std::vector<Player> players;
     std::string gameName;
     unsigned int mapId;
     bool startedGame;
-    /*
-       private:
-        void processGameActions();
 
-        GameSnapshot makeSnapshot();
-     */
+   private:
+    void processPlayerActions();
+
+    void updateGame();
+
+    void sendSnapshots();
+
     void notifyRoomStateToPlayers();
 
    public:
@@ -48,7 +50,7 @@ class Game /* : public Thread */ {
 
     uint8_t getPlayersCount();
 
-    //    void run() override;
+    void run() override;
 
     void addPlayer(unsigned int clientId, std::string playerName);
 

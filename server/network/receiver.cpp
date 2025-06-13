@@ -42,6 +42,11 @@ void Receiver::run() {
                 lobby.startGame(gameId, clientId);
                 break;
             }
+            case ClientMessageType::PlayerMessage : {
+                PlayerMessage p = std::get<PlayerMessage>(msg.data);
+                lobby.pushGameAction(gameId, clientId, p);
+                break;
+            }
             default: {
                 break;
             }

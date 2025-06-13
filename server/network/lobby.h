@@ -32,6 +32,8 @@ class Lobby {
     void startGame(unsigned int gameId, unsigned int hostClientId);
 
     void pushLobbySnapshotById(unsigned int clientId);
+
+    void pushGameAction(unsigned int gameId, unsigned int clientId, PlayerMessage msg);
 };
 
 #endif

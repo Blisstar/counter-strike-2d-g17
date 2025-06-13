@@ -18,27 +18,35 @@ uint8_t Game::getPlayersCount() {
     return players.size();
 }
 
-/* void Game::processGameActions() {}
+void Game::processPlayerActions() {
+    PlayerAction playerAction;
+    while (playerActionsToProcess.try_pop(playerAction)) {
+        switch (playerAction.message.type) {
+            case constant expression:
+                /* code */
+                break;
+
+            default:
+                break;
+        }
+    }
+}
+
+void Game::updateGame() {}
+
+void Game::sendSnapshots() {}
 
 void Game::run() {
     while (should_keep_running()) {
-        EventType eventType;
-        while (eventsToProcess.try_pop(eventType)) {
-            if (eventType == ENEMYDEAD)
-                attackAEnemy();
-        }
-        reviveEnemies();
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
-        for (size_t i = 0; i < nextResurrect.size(); i++) {
-            nextResurrect[i]++;
-        }
+        processPlayerActions();
+        updateGame();
+        sendSnapshots();
     }
-    gameActionsToProcess.close();
+    playerActionsToProcess.close();
 }
-*/
 
 void Game::pushPlayerAction(PlayerMessage playerAction) {
-    gameActionsToProcess.try_push(playerAction);
+    playerActionsToProcess.try_push(playerAction);
 }
 
 void Game::notifyRoomStateToPlayers() {
@@ -77,5 +85,5 @@ bool Game::removePlayer(unsigned int clientId) {
 
 void Game::start(unsigned int hostClientId) {
     if (hostClientId == players.front().getPlayerId())
-        startedGame = true;
+        run();
 }
