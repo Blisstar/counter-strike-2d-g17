@@ -62,15 +62,17 @@ struct ConnectGame {
 // #############################################
 
 enum class PlayerMessageType : uint8_t {
-    MoveUp = 0x10,
-    MoveUpRight = 0x11,
-    MoveRight = 0x12,
-    MoveDownRight = 0x13,
-    MoveDown = 0x14,
-    MoveDownLeft = 0x15,
-    MoveLeft = 0x16,
-    MoveUpLeft = 0x17,
-    BuyWeapon = 0x20
+    Move = 0x10, // el parametro seria la direccion
+    Shot = 0x11, // su parametro seria el angulo del disparo
+    BuyWeapon = 0x12, // su parametro es la arma que desea comprar
+    BuyAmmo = 0x13, // compra balas de su arma actual, no tiene parametro
+    InteractWithZone = 0x14, // sin parametro
+    EquipKnife = 0x15, // sin parametro
+    EquipPrimaryWeapon = 0x16, // sin parametro
+    EquipSecondaryWeapon = 0x17, // sin parametro
+    EquipBomb = 0x18, // sin parametro
+    ChooseTerrorist = 0x19,
+    ChooseAntiTerrorist = 0x1A,
 };
 
 
@@ -244,6 +246,20 @@ struct ServerMessage {
 
     ServerMessage(ServerMessageType _type, ServerMessageData _data)
         : type(_type), data(std::move(_data)) {}
+};
+
+
+// DEFINITIONS THAT WORKING
+
+enum class Direction: uint8_t {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    UP_LEFT,
+    UP_RIGHT,
+    DOWN_LEFT,
+    DOWN_RIGHT
 };
 
 

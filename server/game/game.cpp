@@ -19,17 +19,20 @@ uint8_t Game::getPlayersCount() {
 }
 
 void Game::processPlayerActions() {
-    PlayerAction playerAction;
-    while (playerActionsToProcess.try_pop(playerAction)) {
+    const std::lock_guard<std::mutex> lck(mtx);
+    bool isEmpty;
+    do
+    {
+        PlayerAction playerAction = playerActionsToProcess.try_pop(isEmpty);
         switch (playerAction.message.type) {
-            case constant expression:
+            case PlayerMessageType:: :
                 /* code */
                 break;
 
             default:
                 break;
         }
-    }
+    } while (isEmpty);
 }
 
 void Game::updateGame() {}
@@ -45,8 +48,9 @@ void Game::run() {
     playerActionsToProcess.close();
 }
 
-void Game::pushPlayerAction(PlayerMessage playerAction) {
-    playerActionsToProcess.try_push(playerAction);
+void Game::pushPlayerAction(PlayerAction playerAction) {
+    const std::lock_guard<std::mutex> lck(mtx);
+    playerActionsToProcess.push(playerAction);
 }
 
 void Game::notifyRoomStateToPlayers() {

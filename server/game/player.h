@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "../common/defs.h"
 #include "defs.h"
 #include "ellipse.h"
 

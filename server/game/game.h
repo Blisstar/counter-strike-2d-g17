@@ -42,7 +42,7 @@ class Game : public Thread {
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
 
-    void pushPlayerAction(PlayerMessage playerAction);
+    void pushPlayerAction(PlayerAction playerAction);
 
     std::string getName();
 
@@ -64,4 +64,5 @@ class Game : public Thread {
 
     void start(unsigned int hostClientId);
 };
+
 #endif

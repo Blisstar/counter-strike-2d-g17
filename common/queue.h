@@ -79,6 +79,26 @@ class Queue {
             return true;
         }
 
+        T try_pop(bool& isEmpty) {
+            std::unique_lock<std::mutex> lck(mtx);
+
+            if (isEmpty = q.empty()) {
+                if (closed) {
+                    throw ClosedQueue();
+                }
+                return;
+            }
+
+            if (q.size() == this->max_size) {
+                is_not_full.notify_all();
+            }
+
+            T const val = q.front();
+            q.pop();
+            isEmpty = q.empty();
+            return val;
+        }
+
         void push(T const& val) {
             std::unique_lock<std::mutex> lck(mtx);
 
@@ -189,6 +209,26 @@ class Queue<void*> {
             return true;
         }
 
+        void* try_pop(bool& isEmpty) {
+            std::unique_lock<std::mutex> lck(mtx);
+
+            if (isEmpty = q.empty()) {
+                if (closed) {
+                    throw ClosedQueue();
+                }
+                return;
+            }
+
+            if (q.size() == this->max_size) {
+                is_not_full.notify_all();
+            }
+
+            void* val = q.front();
+            q.pop();
+            isEmpty = q.empty();
+            return val;
+        }
+
         void push(void* const& val) {
             std::unique_lock<std::mutex> lck(mtx);
 
@@ -258,6 +298,10 @@ class Queue<T*> : private Queue<void*> {
 
         bool try_pop(T*& val) {
             return Queue<void*>::try_pop((void*&)val);
+        }
+
+        T* try_pop(bool& isEmpty) {
+            return (T*) Queue<void*>::try_pop(isEmpty);
         }
 
         void push(T* const& val) {

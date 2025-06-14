@@ -70,6 +70,13 @@ ClientMessage ServerProtocol::recvMessage() {
             d = ConnectGame(gameId, playerName);
         } break;
 
+        case ClientMessageType::PlayerMessage: {
+            PlayerMessageType t;
+            recvall(skt, &t, 1);
+            uint16_t parameter = recvShort(skt);
+            d = PlayerMessage(t, parameter);
+        } break;
+
         default:
             break;
     }

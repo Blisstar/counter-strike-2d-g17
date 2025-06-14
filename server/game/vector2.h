@@ -1,17 +1,6 @@
 #ifndef VECTOR2_H
 #define VECTOR2_H
 
-enum class Direction {
-    UP,
-    DOWN,
-    LEFT,
-    RIGHT,
-    UP_LEFT,
-    UP_RIGHT,
-    DOWN_LEFT,
-    DOWN_RIGHT
-};
-
 class Vector2 {
    public:
     float x, y;
