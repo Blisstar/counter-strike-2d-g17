@@ -4,12 +4,14 @@
 
 #define PlayerInMotionVelocity 1.0f
 
-Player::Player(unsigned int _playerId, std::string _playerName, float startX,
+Player::Player(Game& _game, unsigned int _playerId, std::string _playerName, float startX,
                float startY, float vel)
     : shape(startX, startY, 1, 1, vel),
+      game(_game),
       playerId(_playerId),
       playerName(_playerName),
-      health(100) {}
+      health(100),
+      armament(PrimaryWeapon::NoPrimaryWeapon) {}
 
 unsigned int Player::getPlayerId() {
     return playerId;
@@ -52,6 +54,10 @@ void Player::setInMotionWithDirection(Direction dir) {
             break;
     }
     shape.velocity = PlayerInMotionVelocity;
+}
+
+void Player::setShootingWithDirection(uint16_t angle) {
+    armament.fire(shape.getPosition(), angle, game);
 }
 
 void Player::move() {

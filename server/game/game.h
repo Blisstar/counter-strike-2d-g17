@@ -15,16 +15,20 @@ class Broadcast;
 #include "../common/queue.h"
 #include "errors/gameinprogresserror.h"
 #include "network/broadcast.h"
-#include "player.h"
+
+class Player;
 
 class Game : public Thread {
    private:
     Queue<PlayerAction> playerActionsToProcess;
     std::mutex mtx;
     Broadcast& broadcast;
-    std::vector<Player> players;
+    std::unordered_map<unsigned int, Player> players;
     std::string gameName;
+    unsigned int hostClientId;
     unsigned int mapId;
+    std::chrono::milliseconds rate;
+    unsigned int stopWatch;
     bool startedGame;
 
    private:
@@ -37,7 +41,7 @@ class Game : public Thread {
     void notifyRoomStateToPlayers();
 
    public:
-    Game(Broadcast& _broadcast, std::string _gameName, unsigned int _mapId);
+    Game(Broadcast& _broadcast, std::string _gameName, unsigned int _mapId, unsigned int hostId, std::string hostName);
 
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
@@ -49,6 +53,8 @@ class Game : public Thread {
     unsigned int getMapId();
 
     uint8_t getPlayersCount();
+
+    unsigned int getStopWatch();
 
     void run() override;
 

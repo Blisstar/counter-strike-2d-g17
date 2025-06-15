@@ -15,7 +15,7 @@ class Cone {
     bool contains(const Vector2& point) const;
 
    public:
-    Cone(Vector2 c, float dir, float r = 1.0f, float a = 0.47f * M_PI);
+    Cone(Vector2 c, float dir, float r = 1.0f, float a = M_PI_2);
 
     unsigned int collidesWith(const Ellipse& e) const;
 };

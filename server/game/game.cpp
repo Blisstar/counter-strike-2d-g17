@@ -1,10 +1,18 @@
 #include "game.h"
 
-Game::Game(Broadcast& _broadcast, std::string _gameName, unsigned int _mapId)
+#include "player.h"
+
+Game::Game(Broadcast& _broadcast, std::string _gameName, unsigned int _mapId,
+           unsigned int hostId, std::string hostName)
     : broadcast(_broadcast),
       gameName(_gameName),
+      hostClientId(hostId),
       mapId(_mapId),
-      startedGame(false) {}
+      rate(20),
+      stopWatch(0), 
+      startedGame(false) {
+    addPlayer(hostId, hostName);
+}
 
 std::string Game::getName() {
     return gameName;
@@ -18,17 +26,60 @@ uint8_t Game::getPlayersCount() {
     return players.size();
 }
 
+unsigned int Game::getStopWatch() {
+    return stopWatch * (rate.count() / 1000);
+}
+
 void Game::processPlayerActions() {
     const std::lock_guard<std::mutex> lck(mtx);
     bool isEmpty;
-    do
-    {
+    do {
         PlayerAction playerAction = playerActionsToProcess.try_pop(isEmpty);
+        unsigned int idPlayer = playerAction.idPlayer;
+        uint16_t parameter = playerAction.message.parameter;
         switch (playerAction.message.type) {
-            case PlayerMessageType:: :
-                /* code */
+            case PlayerMessageType::StartMotion:
+                players.at(idPlayer).setInMotionWithDirection(
+                    static_cast<Direction>(parameter));
                 break;
-
+            case PlayerMessageType::StartShooting:
+                players.at(idPlayer).setShootingWithDirection(parameter);
+                break;
+            case PlayerMessageType::InteractWithZone:
+                players.at(idPlayer).interact(interactionZones.at(parameter));
+                break;
+            case PlayerMessageType::BuyWeapon:
+                players.at(idPlayer).buyWeapon(parameter);
+                break;
+            case PlayerMessageType::ChooseTerrorist:
+                players.at(idPlayer).setTeam(
+                    static_cast<TerroristSkin>(parameter));
+                break;
+            case PlayerMessageType::ChooseCounterTerrorist:
+                players.at(idPlayer).setTeam(
+                    static_cast<CounterTerroristSkin>(parameter));
+                break;
+            case PlayerMessageType::BuySecondaryAmmo:
+                players.at(idPlayer).buyAmmo(false);
+                break;
+            case PlayerMessageType::BuyPrimaryAmmo:
+                players.at(idPlayer).buyAmmo(true);
+                break;
+            case PlayerMessageType::EquipKnife:
+                players.at(idPlayer).equip(WeaponType::Knife);
+                break;
+            case PlayerMessageType::EquipSecondaryWeapon:
+                players.at(idPlayer).equip(WeaponType::Glock);
+                break;
+            case PlayerMessageType::EquipPrimaryWeapon:
+                players.at(idPlayer).equip(WeaponType::PrimaryWeapon);
+                break;
+            case PlayerMessageType::StopMotion:
+                players.at(idPlayer).stopMotion();
+                break;
+            case PlayerMessageType::StopShooting:
+                players.at(idPlayer).stopShooting();
+                break;
             default:
                 break;
         }
@@ -40,10 +91,28 @@ void Game::updateGame() {}
 void Game::sendSnapshots() {}
 
 void Game::run() {
+    using clock = std::chrono::steady_clock;
+    auto t1 = clock::now();
+
     while (should_keep_running()) {
         processPlayerActions();
         updateGame();
         sendSnapshots();
+
+        auto t2 = clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
+        auto rest = rate - elapsed;
+
+        if (rest.count() < 0) {
+            auto behind = -rest;
+            auto lost = behind - std::chrono::milliseconds(behind.count() % rate.count());
+            t1 += lost;
+            stopWatch += static_cast<int>(lost.count() / rate.count());
+        } else {
+            std::this_thread::sleep_for(rest);
+            t1 += rate;
+            stopWatch += 1;
+        }
     }
     playerActionsToProcess.close();
 }
@@ -55,11 +124,11 @@ void Game::pushPlayerAction(PlayerAction playerAction) {
 
 void Game::notifyRoomStateToPlayers() {
     size_t playersCount = players.size();
-    for (size_t i = 0; i < playersCount; i++) {
-        RoomSnapshot r(playersCount, i == 0);
+    for (auto it = players.begin(); it != players.end();) {
+        RoomSnapshot r(playersCount, it->first == hostClientId);
         broadcast.pushMessageById(
-            players.at(i).getPlayerId(),
-            ServerMessage(ServerMessageType::RoomSnapshot, r));
+            it->first, ServerMessage(ServerMessageType::RoomSnapshot, r));
+        ++it;
     }
 }
 
@@ -67,27 +136,20 @@ void Game::addPlayer(unsigned int playerId, std::string playerName) {
     const std::lock_guard<std::mutex> lck(mtx);
     if (startedGame)
         throw GameInProgressError();
-    players.emplace_back(playerId, playerName);
+    players.emplace(std::piecewise_construct, std::forward_as_tuple(playerId),
+                    std::forward_as_tuple(*this, gameName, mapId, hostClientId,
+                                          playerName));
     notifyRoomStateToPlayers();
 }
 
 bool Game::removePlayer(unsigned int clientId) {
-    // Forma de eliminar rapido, desventaja: altera el orden de insercion
-    // poniendo el ultimo elemento en la posicion del elemento eliminado
     const std::lock_guard<std::mutex> lck(mtx);
-    for (size_t i = 0; i < players.size(); ++i) {
-        if (players[i].getPlayerId() == clientId) {
-            players[i] =
-                players.back();  // Mover el último sobre el que querés eliminar
-            players.pop_back();  // Eliminar el último
-            break;               // Salís, porque ya eliminaste uno
-        }
-    }
+    players.erase(clientId);
     notifyRoomStateToPlayers();
     return players.size() == 0;
 }
 
 void Game::start(unsigned int hostClientId) {
-    if (hostClientId == players.front().getPlayerId())
+    if (hostClientId == this->hostClientId)
         run();
 }

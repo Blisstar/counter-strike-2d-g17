@@ -13,7 +13,8 @@ LobbySnapshot ClientProtocol::recvLobbySnapshot() {
     ServerMessageType t;
     recvall(skt, &t, 1);
 
-    std::cout << "Tipo de mensaje recibido: " << static_cast<int>(t) << std::endl;
+    std::cout << "Tipo de mensaje recibido: " << static_cast<int>(t)
+              << std::endl;
     if (t == ServerMessageType::Error)
         throw new ServerError("An error ocurred in the server");
     if (t != ServerMessageType::LobbySnapshot)
@@ -48,8 +49,6 @@ RoomSnapshot ClientProtocol::recvRoomSnapshot() {
     return RoomSnapshot(isHost, connectedPlayers);
 }
 
-
-
 /*
 struct PlayerSnapshot {
     unsigned int id;
@@ -57,12 +56,12 @@ struct PlayerSnapshot {
     int health;
     int team;
     PrimaryWeapon primaryWeapon;
-    uint16_t loaded_primary_ammo; 
+    uint16_t loaded_primary_ammo;
     uint16_t extra_primary_ammo;
-    uint16_t loaded_secondary_ammo; 
+    uint16_t loaded_secondary_ammo;
     uint16_t extra_secondary_ammo;
     bool has_bomb;
-    
+
 };*/
 
 PlayerSnapshot ClientProtocol::recvPlayerSnapshot() {
@@ -80,17 +79,9 @@ PlayerSnapshot ClientProtocol::recvPlayerSnapshot() {
     uint16_t extra_primary_ammo = recvShort(skt);
     uint16_t loaded_secondary_ammo = recvShort(skt);
     uint16_t extra_secondary_ammo = recvShort(skt);
-    
-
-
 }
 
-
-GameSnapshot ClientProtocol::recvGameSnapshot() {
-
-}
-
-
+GameSnapshot ClientProtocol::recvGameSnapshot() {}
 
 void ClientProtocol::send_message(ClientMessage msg) {
     sendall(skt, &msg.type, 1);
@@ -112,7 +103,7 @@ void ClientProtocol::send_message(ClientMessage msg) {
         case ClientMessageType::PlayerMessage: {
             PlayerMessage c = std::get<PlayerMessage>(msg.data);
             sendall(skt, &c.type, 1);
-            sendShort(skt, c.firstParameter);
+            sendShort(skt, c.parameter);
         } break;
 
         default:

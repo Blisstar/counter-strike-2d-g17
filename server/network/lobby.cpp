@@ -10,8 +10,7 @@ unsigned int Lobby::createGame(std::string gameName,
                                    std::string playerName) {
     const std::lock_guard<std::mutex> lck(mtx);
     unsigned int gameId = nextGameId;
-    games.emplace(std::piecewise_construct, std::forward_as_tuple(gameId), std::forward_as_tuple(*this, gameName, mapId));
-    games.at(gameId).addPlayer(hostClientId, playerName);
+    games.emplace(std::piecewise_construct, std::forward_as_tuple(gameId), std::forward_as_tuple(*this, gameName, mapId, hostClientId, playerName));
     nextGameId++;
     return gameId;
 }
@@ -53,6 +52,6 @@ void Lobby::pushLobbySnapshotById(unsigned int clientId) {
 }
 
 void Lobby::pushGameAction(unsigned int gameId, unsigned int clientId, PlayerMessage msg){
-    auto it = games.find(clientId);
+    auto it = games.find(gameId);
     if (it != games.end()) it->second.pushPlayerAction(PlayerAction(clientId, msg));
 }
