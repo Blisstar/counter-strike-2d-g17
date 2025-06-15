@@ -190,14 +190,13 @@ struct GameSnapshot {
     /*map snapshot*/
     /*tienda*/
 
-    GameSnapshot(unsigned int _mapId, uint8_t _state, uint16_t _round,
+    GameSnapshot(uint8_t _state, uint16_t _round,
                  std::vector<PlayerSnapshot> _players,
                  std::vector<DroppedItem> _dropped_items, BombInfo _bomb,
                  uint16_t _time_left, uint16_t _count_tt_alive,
                  uint16_t _count_ct_alive, uint16_t _score_tt,
                  uint16_t _score_ct)
-        :  // mapId(_mapId),
-          state(_state),
+        : state(_state),
           round(_round),
           players(std::move(_players)),
           dropped_items(std::move(_dropped_items)),

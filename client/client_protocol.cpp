@@ -49,22 +49,15 @@ RoomSnapshot ClientProtocol::recvRoomSnapshot() {
     return RoomSnapshot(isHost, connectedPlayers);
 }
 
-/*
-struct PlayerSnapshot {
-    unsigned int id;
-    float x, y;
-    int health;
-    int team;
-    PrimaryWeapon primaryWeapon;
-    uint16_t loaded_primary_ammo;
-    uint16_t extra_primary_ammo;
-    uint16_t loaded_secondary_ammo;
-    uint16_t extra_secondary_ammo;
-    bool has_bomb;
 
-};*/
 
 PlayerSnapshot ClientProtocol::recvPlayerSnapshot() {
+    ServerMessageType t;
+    recvall(skt, &t, 1);
+    if (t == ServerMessageType::Error)
+        throw new ServerError("An error ocurred in the server");
+    if (t != ServerMessageType::PlayerSnapshot)
+        throw new ServerSentIncorrectMessage();
     unsigned int id = recvLong(skt);
     float x = recvFloat(skt);
     float y = recvFloat(skt);
@@ -79,9 +72,74 @@ PlayerSnapshot ClientProtocol::recvPlayerSnapshot() {
     uint16_t extra_primary_ammo = recvShort(skt);
     uint16_t loaded_secondary_ammo = recvShort(skt);
     uint16_t extra_secondary_ammo = recvShort(skt);
+    bool has_bomb = false;
+    recvall(skt, &has_bomb, 1);
+    uint16_t money = recvShort(skt);
+    bool is_hit = false;
+    recvall(skt, &is_hit, 1);
+    return PlayerSnapshot(id, x, y, health, team, primaryWeapon,
+                          loaded_primary_ammo, extra_primary_ammo,
+                          loaded_secondary_ammo, extra_secondary_ammo, has_bomb,
+                          money, is_hit);
+    
 }
+/* 
+    uint8_t state;
+    uint16_t round;
+    std::vector<PlayerSnapshot> players;
+    std::vector<DroppedItem> dropped_items;
+    BombInfo bomb;
+    uint16_t time_left;
+    uint16_t count_tt_alive;
+    uint16_t count_ct_alive;
+    uint16_t score_tt;
+    uint16_t score_ct;
+ */
+GameSnapshot ClientProtocol::recvGameSnapshot() {
+    ServerMessageType t;
+    recvall(skt, &t, 1);
+    if (t == ServerMessageType::Error)
+        throw new ServerError("An error ocurred in the server");
+    if (t != ServerMessageType::GameSnapshot)
+        throw new ServerSentIncorrectMessage();
 
-GameSnapshot ClientProtocol::recvGameSnapshot() {}
+    uint8_t state = 0;
+    recvall(skt, &state, 1);
+    uint16_t round = recvShort(skt);
+    
+    uint16_t playersCount = recvShort(skt); // recibo primero la cantidad de jugadores
+    std::vector<PlayerSnapshot> players;
+    for (int i = 0; i < playersCount; i++) {
+        players.push_back(recvPlayerSnapshot());
+    }
+
+    uint16_t droppedItemsCount = recvShort(skt); // recibo primero la cantidad de items droppeados
+    std::vector<DroppedItem> dropped_items;
+    for (int i = 0; i < droppedItemsCount; i++) {
+        float x = recvFloat(skt);
+        float y = recvFloat(skt);
+        int type = recvLong(skt);
+        dropped_items.emplace_back(x, y, type);
+    }
+
+    bool is_planted = false;
+    recvall(skt, &is_planted, 1);
+    float bomb_x = recvFloat(skt);
+    float bomb_y = recvFloat(skt);
+    uint16_t timer = recvShort(skt);
+    
+    BombInfo bomb(is_planted, bomb_x, bomb_y, timer);
+
+    uint16_t time_left = recvShort(skt);
+    uint16_t count_tt_alive = recvShort(skt);
+    uint16_t count_ct_alive = recvShort(skt);
+    uint16_t score_tt = recvShort(skt);
+    uint16_t score_ct = recvShort(skt);
+
+    return GameSnapshot(state, round, players, dropped_items, bomb,
+                        time_left, count_tt_alive, count_ct_alive,
+                        score_tt, score_ct);
+}
 
 void ClientProtocol::send_message(ClientMessage msg) {
     sendall(skt, &msg.type, 1);
