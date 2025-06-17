@@ -4,8 +4,8 @@
 
 #define PlayerInMotionVelocity 1.0f
 
-Player::Player(Game& _game, unsigned int _playerId, std::string _playerName, float startX,
-               float startY, float vel)
+Player::Player(Game& _game, unsigned int _playerId, std::string _playerName,
+               float startX, float startY, float vel)
     : shape(startX, startY, 1, 1, vel),
       game(_game),
       playerId(_playerId),
@@ -57,7 +57,7 @@ void Player::setInMotionWithDirection(Direction dir) {
 }
 
 void Player::setShootingWithDirection(uint16_t angle) {
-    armament.fire(shape.getPosition(), angle, game);
+    armament.startShooting(shape.getPosition(), angle, game);
 }
 
 void Player::move() {

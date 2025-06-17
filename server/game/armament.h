@@ -6,9 +6,10 @@
 #include "vector2.h"
 
 enum class WeaponStatus : uint8_t {
-   Inactive = 0x00,
-   ReadyToFire = 0x01,
-   ApplyingRecoil = 0x02,
+    Inactive = 0x00,
+    ReadyToFire = 0x01,
+    ApplyingRecoil = 0x02,
+    ApplyingFrecuency = 0x03,
 };
 
 class Armament {
@@ -20,14 +21,22 @@ class Armament {
     unsigned int presicion;
     unsigned int recoilDuration;
     unsigned int shotsPerBurst;
-    unsigned int timeBetweenShots;
+    unsigned int shotsCount;
+    unsigned int frecuency;
     unsigned int timeOfLastShot;
+    bool isContinuosFiring;
+    bool isTriggerFree;
 
    public:
     Armament(PrimaryWeapon _primaryWeapon = PrimaryWeapon::NoPrimaryWeapon);
 
-    void fire(Vector2 source, uint16_t angle, Game& game);
-    
+    bool canShooting();
+
+    void updateState(Game& game);
+
+    void startShooting(Vector2 source, uint16_t angle, Game& game);
+
+    void stopShooting();
 };
 
 #endif

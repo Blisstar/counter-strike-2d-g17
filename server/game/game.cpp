@@ -27,7 +27,7 @@ uint8_t Game::getPlayersCount() {
 }
 
 unsigned int Game::getStopWatch() {
-    return stopWatch * (rate.count() / 1000);
+    return stopWatch * rate.count() / 10;
 }
 
 void Game::processPlayerActions() {
@@ -111,7 +111,7 @@ void Game::run() {
         } else {
             std::this_thread::sleep_for(rest);
             t1 += rate;
-            stopWatch += 1;
+            stopWatch++;
         }
     }
     playerActionsToProcess.close();
